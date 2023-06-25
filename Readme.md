@@ -37,6 +37,15 @@ Provide the
 associated with your project. 
 A database needs to be created, the schema is stored in the databbase folder (check if you find it, otherwise build one yourself silently reading the code and understand what it is expected to be like)
 
+## Run
+Open a terminal, cd in to the project root and type in the below command to run this application
+`php -S localhost:8000 -t public`
+
+Alternatively, if you want to have custom hostnames for the api you can try--
+`php -S customhostname:80 -t public`
+
+Make sure you add the `customhostname` into your hosts file.
+Check the internet to see how the hosts file can be edited.
 
 ## Contributing
 
