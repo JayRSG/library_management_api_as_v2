@@ -1,0 +1,13 @@
+{
+    "name": "a_s/library_management_api_v2",
+    "description": "A library management api based on php which supports fingerprint sensor for login and rfid tags for identifying books. This custom, php application is written from scratch and only includes functionalities to accomodate a desktop application, an arduino hosting a fingerprint module and rfid reader. This simple project aims to enable storing data in a mysql database related to books and users of a library management system.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Joy Ram Sen Gupta",
+            "email": "jaysen110@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

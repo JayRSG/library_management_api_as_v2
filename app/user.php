@@ -1,17 +1,18 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-require('./configuration/config.php');
+require('../config/config.php');
 
-if(isset($_GET['name'])){
+if(isset($_GET['emailPost'])){
     try{
-        $name = $_GET['name'];
-        $author = $_GET['author'];
-        $quantity = $_GET['quantity'];
-        $price = $_GET['price'];
-        $rfid = $_GET['rfid'];
-        $description = $_GET['description'];
-        $sql = "INSERT INTO `book` (`id`, `name`, `author`, `quantity`, `price`, `description`, `rfid`) VALUES (NULL,'$name','$author','$quantity','$price','$description','$rfid')";
+        $firstName = $_GET['first_name'];
+        $lastName = $_GET['last_name'];
+        $email = $_GET['emailPost'];
+        $userId = $_GET['student_id'];
+        $fingerprint = $_GET['fingerprint'];
+        $semester = $_GET['semester'];
+        $department = $_GET['department'];
+        $sql = "INSERT INTO `user` (`id`, `first_name`, `last_name`, `email`, `student_id`, `fingerprint`, `semester`, `department`) VALUES (NULL,'$firstName','$lastName','$email','$userId','$fingerprint','$semester','$department')";
         $conn->exec($sql);
     } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
@@ -21,7 +22,7 @@ if(isset($_GET['name'])){
 
 if(isset($_GET['value'])){
     try{
-        $stmt = $conn->prepare("SELECT * FROM book");
+        $stmt = $conn->prepare("SELECT * FROM user");
         $stmt->execute();
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $data = $stmt->fetchAll();
@@ -32,15 +33,15 @@ if(isset($_GET['value'])){
       }
 }
 
-
-
 if(isset($_GET['userDelete'])){
     try{
         $id = $_GET['userDelete'];
-        $sql = "DELETE FROM book WHERE id='$id'";
+        $sql = "DELETE FROM user WHERE id='$id'";
         $conn->exec($sql);
-        echo "Book deleted";
+        echo "User deleted";
         } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
       }
 }
+
+

@@ -1,7 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-require('./configuration/config.php');
+require('../config/config.php');
 
 
 if(isset($_GET['current'])){
