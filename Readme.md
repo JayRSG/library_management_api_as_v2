@@ -28,11 +28,11 @@ Copy the .env.example file contents into a new .env file.
 Replace the content if any. 
 Provide the 
 
--DB_HOST=localhost
--DB_PORT=3306
--DB_DATABASE=
--DB_USERNAME=
--DB_PASSWORD=
+- DB_HOST=localhost
+- DB_PORT=3306
+- DB_DATABASE=
+- DB_USERNAME=
+- DB_PASSWORD=
 associated with your project. 
 A database needs to be created, the schema is stored in the databbase folder (check if you find it, otherwise build one yourself silently reading the code and understand what it is expected to be like)
 
