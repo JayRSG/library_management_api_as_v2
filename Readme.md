@@ -56,10 +56,8 @@ This is a private project in a public repo. You are free to contribute for yours
 No licensing. Just feel free to use it, change it, modify it, redistribute it.
 
 ## Acknowledgements
-
-I'd like to thank myself for building this project.
+Thanks `AS` for inspiring me to build this project.
 
 ## Contact
 
-Thanks for not contacting.
 
