@@ -17,8 +17,8 @@ parse_str($queryString, $queryParams);
 $routes = [
   "/" => "../../app/home.php",
   "/books" => "../../app/books.php",
-  "/books_barcode" => "../../app/book_barcode.php",
-  "/borrow_books" => "../../app/borrow_books.php",
+  "/book_barcode" => "../../app/book_barcode.php",
+  "/borrow_book" => "../../app/borrow_book.php",
   "/sensor" => "../../app/sensor.php",
   "/user" => "../../app/user.php",
 ];
