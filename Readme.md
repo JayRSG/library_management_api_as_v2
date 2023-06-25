@@ -24,7 +24,17 @@ This project is used in conjunction with a frontend (mobile app/spa/desktop appl
 
 ## Configuration
 
-Copy the .env.example file contents into a new .env file. Replace the content if any. Provide the DATABASE, HOSTNAME, USERNAME, PASSWORD associated with your development environment. A database needs to be created by the name of your database, the schema is stored in the databbase folder (check if you find it, otherwise build one yourself silently reading the code and understand what it is expected to be like)
+Copy the .env.example file contents into a new .env file. 
+Replace the content if any. 
+Provide the 
+
+-DB_HOST=localhost
+-DB_PORT=3306
+-DB_DATABASE=
+-DB_USERNAME=
+-DB_PASSWORD=
+associated with your project. 
+A database needs to be created, the schema is stored in the databbase folder (check if you find it, otherwise build one yourself silently reading the code and understand what it is expected to be like)
 
 
 ## Contributing
