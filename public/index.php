@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once __DIR__ . '../../vendor/autoload.php';
 
@@ -20,9 +21,13 @@ $routes = [
   "/book_barcode" => "../../app/book_barcode.php",
   "/borrow_book" => "../../app/borrow_book.php",
   "/sensor" => "../../app/sensor.php",
-  "/user" => "../../app/user.php",
+  "/user/login" => "../../app/user/login.php",
+  "/user/logout" => "../../app/user/logout.php",
+  "/user/register" => "../../app/user/register.php",
+  "/user" => "../../app/user/retrieve.php",
+  "/user/update" => "../../app/user/update.php",
+  "/user/delete" => "../../app/user/delete.php",
 ];
-
 
 // Check if the requested route exists in the map
 if (array_key_exists($path, $routes)) {
