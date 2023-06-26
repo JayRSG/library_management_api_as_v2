@@ -1,3 +1,4 @@
 /vendor/
 /database/library.sql
 .env
+database/library_management_as.sql
