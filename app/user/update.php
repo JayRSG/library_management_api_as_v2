@@ -11,6 +11,10 @@ if (!checkPutMethod()) {
   return;
 }
 
+if (!checkUserType("user")) {
+  return;
+}
+
 
 /**
  * Update User Information
