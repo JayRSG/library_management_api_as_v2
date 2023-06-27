@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-require __DIR__ . "../../../config/config.php";
+require __DIR__ . "../../config/config.php";
 
 if (!auth()) {
   http_response_code(400);
