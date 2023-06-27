@@ -3,6 +3,11 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 require __DIR__ . "../../../config/config.php";
 
+if (!auth()) {
+  http_response_code(401);
+  header("location: /");
+}
+
 /**
  * Delete a user
  */
@@ -16,8 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
 
 if (isset($_POST['destroy']) && $_POST['destroy'] == true) {
   try {
-    $user = $_SESSION['auth'];
-
+    $user = auth();
     echo json_encode($_POST, JSON_PRETTY_PRINT);
 
     if ($user['email'] != $_POST['email']) {
@@ -26,10 +30,19 @@ if (isset($_POST['destroy']) && $_POST['destroy'] == true) {
       return;
     }
 
-    // $id = $_POST['id'];
-    // $sql = "DELETE FROM user WHERE id='$id'";
-    // $conn->exec($sql);
-    // echo "User deleted";
+    $id = $_POST['id'];
+    $sql = "DELETE FROM user WHERE email= :email";
+    $stmt = $conn->prepare($sql);
+
+    $stmt->bindParam(":email", $user['email']);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+      http_response_code(200);
+      echo "User deleted";
+    } else {
+      http_response_code(400);
+      echo "Deletion failed";
+    }
   } catch (PDOException $e) {
     echo $sql . "<br>" . $e->getMessage();
   }

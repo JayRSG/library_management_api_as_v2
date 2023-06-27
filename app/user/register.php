@@ -7,6 +7,12 @@ require __DIR__ . "../../../config/config.php";
  * Register Method
  */
 
+if ($_SERVER['REQUEST_METHOD'] != "POST") {
+  http_response_code(403);
+  echo "Forbidden";
+  return;
+}
+
 if (isset($_POST['register']) && $_POST['register'] == true) {
   try {
     $firstName = $_POST['first_name'] ?? null;
