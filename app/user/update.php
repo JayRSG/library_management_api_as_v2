@@ -7,9 +7,15 @@ if (!auth()) {
   header("location: /");
 }
 
+if (!checkPutMethod()) {
+  return;
+}
+
+
 /**
  * Update User Information
  */
+
 
 if ($_SERVER['REQUEST_METHOD'] == "PUT") {
   $putdata = file_get_contents("php://input");

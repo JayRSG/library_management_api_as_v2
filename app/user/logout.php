@@ -8,10 +8,10 @@ if (!auth()) {
   http_response_code(400);
   echo "Not logged in";
   return;
-} else if ($_SERVER['REQUEST_METHOD'] != "POST") {
-  http_response_code(403);
-  echo "Forbidden";
-  return;
+} else {
+  if (!checkPostMethod()) {
+    return;
+  }
 }
 
 if (isset($_POST['logout']) && $_POST['logout'] == true) {

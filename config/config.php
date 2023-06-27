@@ -16,12 +16,4 @@ try {
   echo 'Connection failed: ' . $e->getMessage();
 }
 
-
-function auth()
-{
-  if (isset($_SESSION['auth'])) {
-    return $_SESSION['auth'];
-  } else {
-    return false;
-  }
-}
+require __DIR__ . "../../lib/utils.php";

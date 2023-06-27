@@ -7,9 +7,7 @@ require __DIR__ . "../../../config/config.php";
  * Login Method
  */
 
-if ($_SERVER['REQUEST_METHOD'] != "POST") {
-  http_response_code(403);
-  echo "Forbidden";
+if (!checkPostMethod()) {
   return;
 }
 

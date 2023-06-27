@@ -8,6 +8,10 @@ if (!auth()) {
   header("location: /");
 }
 
+if (!checkDeleteMethod()) {
+  return;
+}
+
 /**
  * Delete a user
  */
@@ -18,15 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
   $_POST = $deleteData;
 }
 
-
-if (isset($_POST['destroy']) && $_POST['destroy'] == true) {
-  try {
-    $user = auth();
-    echo json_encode($_POST, JSON_PRETTY_PRINT);
-
+try {
+  $user = auth();
+  if ($user) {
     if ($user['email'] != $_POST['email']) {
       http_response_code(401);
-      echo "Unathorized";
+      echo "Unauthorized";
       return;
     }
 
@@ -43,7 +44,11 @@ if (isset($_POST['destroy']) && $_POST['destroy'] == true) {
       http_response_code(400);
       echo "Deletion failed";
     }
-  } catch (PDOException $e) {
-    echo $sql . "<br>" . $e->getMessage();
+  } else {
+    http_response_code(401);
+    echo "Unauthenticated";
+    return;
   }
+} catch (PDOException $e) {
+  echo $sql . "<br>" . $e->getMessage();
 }

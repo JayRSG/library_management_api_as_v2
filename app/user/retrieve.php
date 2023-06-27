@@ -7,9 +7,8 @@ require __DIR__ . "../../../config/config.php";
  * Get user
  */
 
-if ($_SERVER['REQUEST_METHOD'] != "GET") {
-  http_response_code(403);
-  echo "Forbidden";
+if (!checkGetMethod()) {
+  return;
 }
 
 try {
@@ -26,9 +25,9 @@ try {
     $data = $stmt->fetchObject();
 
     echo json_encode($data, JSON_PRETTY_PRINT);
-  }else{
-    http_response_code(404);
-    echo "Not Found";
+  } else {
+    http_response_code(401);
+    echo "Unauthenticated";
   }
 } catch (PDOException $e) {
   echo $sql . "<br>" . $e->getMessage();
