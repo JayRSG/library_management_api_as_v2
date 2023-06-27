@@ -11,14 +11,15 @@ if (!checkGetMethod()) {
   return;
 }
 
-if (!checkUserType("user")) {
+if (!checkUserType("admin")) {
   return;
 }
 
 try {
   $user = auth();
+
   if ($user) {
-    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, student_id, semester, department FROM user WHERE email = :email");
+    $stmt = $conn->prepare("SELECT id, first_name, last_name, email FROM admin WHERE email = :email");
 
     $stmt->bindParam(':email', $user['email']);
 

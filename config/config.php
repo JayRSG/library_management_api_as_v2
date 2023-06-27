@@ -15,3 +15,5 @@ try {
 } catch (PDOException $e) {
   echo 'Connection failed: ' . $e->getMessage();
 }
+
+require __DIR__ . "../../lib/utils.php";

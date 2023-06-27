@@ -6,17 +6,13 @@ require __DIR__ . "../../../config/config.php";
 function register_validator($data)
 {
   if (
-    is_null($data['first_name']) ||
-    is_null($data['last_name']) ||
-    is_null($data['email']) ||
-    is_null($data['password']) ||
-    is_null($data['student_id']) ||
-    is_null($data['semester']) ||
-    is_null($data['department'])
+    isset($data['email']) && isset($data['password']) &&
+    isset($data['first_name']) &&
+    isset($data['last_name'])
   ) {
-    return false;
-  } else {
     return true;
+  } else {
+    return false;
   }
 }
 
@@ -45,32 +41,27 @@ try {
   $lastName = $_POST['last_name'] ?? null;
   $email = $_POST['email'] ?? null;
   $password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
-  $student_id = $_POST['student_id'] ?? null;
   $fingerprint = $_POST['fingerprint'] ?? null;
-  $semester = $_POST['semester'] ?? null;
-  $department = $_POST['department'] ?? null;
 
-  $sql = "INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `student_id`, `fingerprint`, `semester`, `department`) 
-          VALUES (:first_name, :last_name, :email, :pass, :student_id, :fingerprint, :semester, :department)";
+  $sql = "INSERT INTO `admin` (`first_name`, `last_name`, `email`, `password`, `fingerprint`)
+  VALUES(:first_name, :last_name, :email, :pass, :fingerprint)";
+
   $stmt = $conn->prepare($sql);
 
   $stmt->bindParam(':first_name', $firstName, PDO::PARAM_STR);
   $stmt->bindParam(':last_name', $lastName, PDO::PARAM_STR);
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
   $stmt->bindParam(':pass', $password, PDO::PARAM_STR);
-  $stmt->bindParam(':student_id', $student_id, PDO::PARAM_STR);
   $stmt->bindParam(':fingerprint', $fingerprint, PDO::PARAM_STR);
-  $stmt->bindParam(':semester', $semester, PDO::PARAM_INT);
-  $stmt->bindParam(':department', $department, PDO::PARAM_STR);
 
   $stmt->execute();
 
   if ($stmt->rowCount() > 0) {
     http_response_code(200);
-    echo "Successfully registered!"; // Display success message
+    echo "Successfully registered";
   } else {
     http_response_code(400);
-    echo "Registration Failed"; // Handle insertion failure
+    echo "Registration failed";
   }
 } catch (PDOException $e) {
   echo $sql . "<br>" . $e->getMessage();

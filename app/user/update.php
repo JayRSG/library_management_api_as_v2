@@ -3,9 +3,23 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 require __DIR__ . "../../../config/config.php";
 
+if (!auth()) {
+  header("location: /");
+}
+
+if (!checkPutMethod()) {
+  return;
+}
+
+if (!checkUserType("user")) {
+  return;
+}
+
+
 /**
  * Update User Information
  */
+
 
 if ($_SERVER['REQUEST_METHOD'] == "PUT") {
   $putdata = file_get_contents("php://input");

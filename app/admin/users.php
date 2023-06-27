@@ -4,28 +4,26 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 require __DIR__ . "../../../config/config.php";
 
 /**
- * Get user
+ * Get users
  */
 
 if (!checkGetMethod()) {
   return;
 }
 
-if (!checkUserType("user")) {
+if (!checkUserType("admin")) {
   return;
 }
 
 try {
   $user = auth();
-  if ($user) {
-    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, student_id, semester, department FROM user WHERE email = :email");
-
-    $stmt->bindParam(':email', $user['email']);
+  if ($user && auth_type() == "admin") {
+    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, student_id, semester, department from user");
 
     $stmt->execute();
 
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $data = $stmt->fetchObject();
+    $data = $stmt->fetchAll();
 
     echo json_encode($data, JSON_PRETTY_PRINT);
   } else {
