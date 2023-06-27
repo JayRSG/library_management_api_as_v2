@@ -9,6 +9,25 @@ function auth()
   }
 }
 
+function auth_type()
+{
+  if (isset($_SESSION['auth_type'])) {
+    return $_SESSION['auth_type'];
+  } else {
+    return false;
+  }
+}
+
+function checkUserType($type)
+{
+  if (auth() && auth_type() != $type) {
+    http_response_code(401);
+    echo "Unauthorized";
+    return false;
+  }
+  return true;
+}
+
 function checkPostMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "POST") {

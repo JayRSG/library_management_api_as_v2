@@ -38,7 +38,7 @@ try {
   $password = $_POST['password'] ?? null;
   $fingerprint =  $_POST['fingerprint'] ?? null;
 
-  $user_type = $_POST['user_type'] ?? null;
+  $user_type = $_POST['user_type'] ?? null;   //admin|user
 
   if ($user_type == "admin") {
     if ($fingerprint) {
@@ -73,6 +73,7 @@ try {
       // Password or fingerprint matches, allow login
       echo "Login successful!";
       $_SESSION['auth'] = $user;
+      $_SESSION['auth_type'] = $user_type;
     } else {
       // Password or fingerprint does not match
       echo "Invalid credentials.";
