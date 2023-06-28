@@ -6,13 +6,13 @@ require __DIR__ . "../../../config/config.php";
 function register_validator($data)
 {
   if (
-    is_null($data['first_name']) ||
-    is_null($data['last_name']) ||
-    is_null($data['email']) ||
-    is_null($data['password']) ||
-    is_null($data['student_id']) ||
-    is_null($data['semester']) ||
-    is_null($data['department'])
+    !isset($data['first_name']) ||
+    !isset($data['last_name']) ||
+    !isset($data['email']) ||
+    !isset($data['password']) ||
+    !isset($data['student_id']) ||
+    !isset($data['semester']) ||
+    !isset($data['department'])
   ) {
     return false;
   } else {
@@ -29,14 +29,12 @@ if (!checkPostMethod()) {
 }
 
 if (auth()) {
-  http_response_code(200);
-  echo "Already logged in";
+  response(['message' => "Already Logged In"], 403);
   return;
 }
 
 if (!register_validator($_POST)) {
-  http_response_code(400);
-  echo "Bad Request";
+  response(['message' => "Bad Request"], 400);
   return;
 }
 
@@ -66,12 +64,10 @@ try {
   $stmt->execute();
 
   if ($stmt->rowCount() > 0) {
-    http_response_code(200);
-    echo "Successfully registered!"; // Display success message
+    response(['message' => "Successfully registered!"], 200);
   } else {
-    http_response_code(400);
-    echo "Registration Failed"; // Handle insertion failure
+    response(['message' => "Registration Failed"], 400);
   }
 } catch (PDOException $e) {
-  echo $sql . "<br>" . $e->getMessage();
+  response(['message' => $e->getMessage()], 500);
 }
