@@ -67,3 +67,16 @@ function checkDeleteMethod()
   }
   return true;
 }
+
+function response($response, $code = 200, $headers = null)
+{
+
+  if ($headers != null) {
+    foreach ($headers as $name => $data) {
+      header("$name: $data");
+    }
+  }
+
+  http_response_code($code);
+  echo json_encode($response);
+}

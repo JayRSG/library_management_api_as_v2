@@ -5,8 +5,7 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 require __DIR__ . "../../config/config.php";
 
 if (!auth()) {
-  http_response_code(400);
-  echo "Not logged in";
+  response(['message' => "Not Logged in"], 400);
   return;
 } else {
   if (!checkPostMethod()) {
@@ -17,6 +16,5 @@ if (!auth()) {
 if (isset($_POST['logout']) && $_POST['logout'] == true) {
   // logging out
   session_destroy();
-  http_response_code(204);
-  echo "Logged out";
+  response([], 204);
 }

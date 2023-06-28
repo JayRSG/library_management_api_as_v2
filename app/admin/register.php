@@ -25,14 +25,12 @@ if (!checkPostMethod()) {
 }
 
 if (auth()) {
-  http_response_code(200);
-  echo "Already logged in";
+  response(['message' => "Already Logged In"], 403);
   return;
 }
 
 if (!register_validator($_POST)) {
-  http_response_code(400);
-  echo "Bad Request";
+  response(['message' => "Bad Request"], 400);
   return;
 }
 
@@ -57,12 +55,10 @@ try {
   $stmt->execute();
 
   if ($stmt->rowCount() > 0) {
-    http_response_code(200);
-    echo "Successfully registered";
+    response(['message' => "Successfully registered"], 200);
   } else {
-    http_response_code(400);
-    echo "Registration failed";
+    response(['message' => "Registration failed"], 400);
   }
 } catch (PDOException $e) {
-  echo $sql . "<br>" . $e->getMessage();
+  response(['message' => $e->getMessage()], 500);
 }

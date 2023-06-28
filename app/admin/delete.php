@@ -26,8 +26,7 @@ if (!checkPostMethod()) {
 }
 
 if (!checkUserType("admin")) {
-  http_response_code(403);
-  echo "Unauthorized";
+  response(['message' => "Unauthorized"], 403);
   return;
 }
 
@@ -37,8 +36,7 @@ if (!checkUserType("admin")) {
  */
 
 if (!delete_validator($_POST)) {
-  http_response_code(400);
-  echo "Bad Request";
+  response(['message' => "Bad Request"], 400);
   return;
 }
 
@@ -52,8 +50,7 @@ try {
 
   if ($user) {
     if ($user['email'] != $email) {
-      http_response_code(401);
-      echo "Unauthorized";
+      response(['message' => "Unauthorized"], 401);
       return;
     }
 
@@ -64,8 +61,7 @@ try {
     $user_verify = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!is_null($password) && !password_verify($password, $user_verify['password'])) {
-      http_response_code(401);
-      echo "Invalid Credentials";
+      response(['message' => "Invalid Credentials"], 401);
       return;
     }
 
@@ -84,20 +80,16 @@ try {
       $stmt->bindParam(":user_id", $user_data['id']);
     }
 
-
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
-      http_response_code(200);
-      echo "User deleted";
+      response(['message' => "User deleted"], 200);
     } else {
-      http_response_code(400);
-      echo "Deletion failed";
+      response(['message' => "Deletion failed"], 400);
     }
   } else {
-    http_response_code(401);
-    echo "Unauthenticated";
+    response(['message' => "Unauthenticated"], 401);
     return;
   }
 } catch (PDOException $e) {
-  echo $sql . "<br>" . $e->getMessage();
+  response(['message' => $e->getMessage()], 500);
 }

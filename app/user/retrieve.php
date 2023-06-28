@@ -27,11 +27,10 @@ try {
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $data = $stmt->fetchObject();
 
-    echo json_encode($data, JSON_PRETTY_PRINT);
+    response(["data" => $data], 200);
   } else {
-    http_response_code(401);
-    echo "Unauthenticated";
+    response(['message' => "Unauthenticated"], 401);
   }
 } catch (PDOException $e) {
-  echo $sql . "<br>" . $e->getMessage();
+  response(['message' => $e->getMessage()], 500);
 }

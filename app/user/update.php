@@ -38,14 +38,12 @@ if (isset($_POST['update']) && $_POST['update'] == true) {
 
     // Check for user authorization
     if ($email != $user['email']) {
-      http_response_code(401);
-      echo "Unauthorized";
+      response(['message' => 'Unauthorized'], 401);
       return;
     }
 
     if ((is_null($email) || is_null($password)) && is_null($fingerprint)) {
-      http_response_code(400);
-      echo "BAD Request. Check Credentials";
+      response(['message' => "BAD Request. Check Credentials"], 400);
     } else {
       // Query to verify the user
       $verifyQuery = "SELECT * FROM `user` WHERE ";
@@ -72,14 +70,13 @@ if (isset($_POST['update']) && $_POST['update'] == true) {
       $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
       if (!$user) {
-        http_response_code(404);
-        echo "User not found";
+        response(['message' => "User not found"], 404);
         return;
       }
 
       // Check password if provided
       if (!is_null($password) && !password_verify($password, $user['password'])) {
-        echo "Invalid password";
+        response(['message' => "Invalid password"], 401);
         return;
       }
 
@@ -123,12 +120,12 @@ if (isset($_POST['update']) && $_POST['update'] == true) {
       $updateStmt->execute();
 
       if ($updateStmt->rowCount() > 0) {
-        echo "Successfully updated!"; // Display success message
+        response(['message' => "Successfully updated"], 200);
       } else {
-        echo "Update Failed"; // Handle update failure
+        response(['message' => "Update Failed"], 304);
       }
     }
   } catch (PDOException $e) {
-    echo $e->getMessage();
+    response(['message' => $e->getMessage()], 500);
   }
 }

@@ -22,14 +22,12 @@ if (!checkPostMethod()) {
 }
 
 if (auth()) {
-  http_response_code(200);
-  echo "Already logged in";
+  response(['message' => 'Already Logged in'], 200);
   return;
 }
 
 if (!login_validator($_POST)) {
-  http_response_code(400);
-  echo "Bad Request";
+  response(['message' => 'Bad Request'], 400);
   return;
 }
 
@@ -69,19 +67,19 @@ try {
 
   if ($user) {
     // User found, check the password or fingerprint
-    if (password_verify($password, $user['password']) || $fingerprint === $user['fingerprint']) {
+    if (password_verify($password, $user['password']) || ($fingerprint != NULL && $fingerprint === $user['fingerprint'])) {
       // Password or fingerprint matches, allow login
-      echo "Login successful!";
       $_SESSION['auth'] = $user;
       $_SESSION['auth_type'] = $user_type;
+      response(['message' => "Login Successful"], 200);
     } else {
       // Password or fingerprint does not match
-      echo "Invalid credentials.";
+      response(["messaga" => "Invalid credentials"], 404);
     }
   } else {
     // User not found
-    echo "Users not found.";
+    response(["messaga" => "Users not found"], 200);
   }
 } catch (PDOException $e) {
-  echo $sql . "<br>" . $e->getMessage();
+  response(['message' => $e->getMessage()], 500);
 }
