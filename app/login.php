@@ -48,9 +48,9 @@ try {
     }
   } else if ($user_type == "user") {
     if ($fingerprint) {
-      $sql = "SELECT * FROM user WHERE fingerprint = :fingerprint AND NOT deleted = 1";
+      $sql = "SELECT * FROM user WHERE fingerprint = :fingerprint AND deleted IS NOT true";
     } else {
-      $sql = "SELECT * FROM user WHERE email = :email AND NOT deleted = 1";
+      $sql = "SELECT * FROM user WHERE email = :email AND deleted IS NOT true";
     }
   }
 
@@ -80,7 +80,7 @@ try {
     }
   } else {
     // User not found
-    echo "Invalid credentials.";
+    echo "Users not found.";
   }
 } catch (PDOException $e) {
   echo $sql . "<br>" . $e->getMessage();
