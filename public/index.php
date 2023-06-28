@@ -17,20 +17,21 @@ $queryString = parse_url($request, PHP_URL_QUERY);
 parse_str($queryString, $queryParams);
 
 $routes = [
-  "/"                 =>       app . "/home.php",
-  "/books"            =>       app . "/books.php",
-  "/book_barcode"     =>       app . "/book_barcode.php",
-  "/borrow_book"      =>       app . "/borrow_book.php",
-  "/sensor"           =>       app . "/sensor.php",
-  "/login"            =>       app . "/login.php",
-  "/logout"           =>       app . "/logout.php",
-  "/user/register"    =>       app . "/user/register.php",
-  "/user"             =>       app . "/user/retrieve.php",
-  "/user/update"      =>       app . "/user/update.php",
-  "/user/delete"      =>       app . "/user/delete.php",
-  "/admin/register"   =>       app . "/admin/register.php",
-  "/admin"            =>       app . "/admin/retrieve.php",
-  "/admin/users"      =>       app . "/admin/users.php",
+  "/"                      =>       app . "/home.php",
+  "/books"                 =>       app . "/books.php",
+  "/book_barcode"          =>       app . "/book_barcode.php",
+  "/borrow_book"           =>       app . "/borrow_book.php",
+  "/sensor"                =>       app . "/sensor.php",
+  "/login"                 =>       app . "/login.php",
+  "/logout"                =>       app . "/logout.php",
+  "/user/register"         =>       app . "/user/register.php",
+  "/user"                  =>       app . "/user/retrieve.php",
+  "/user/update"           =>       app . "/user/update.php",
+  "/user/delete"           =>       app . "/user/delete.php",
+  "/admin/register"        =>       app . "/admin/register.php",
+  "/admin"                 =>       app . "/admin/retrieve.php",
+  "/admin/users"           =>       app . "/admin/users.php",
+  "/admin/deleteUser"      =>       app . "/admin/delete.php",
 ];
 
 // Check if the requested route exists in the map
