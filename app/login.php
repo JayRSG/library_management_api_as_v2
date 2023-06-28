@@ -42,15 +42,15 @@ try {
 
   if ($user_type == "admin") {
     if ($fingerprint) {
-      $sql = "SELECT * FROM admin WHERE fingerprint = :fingerprint";
+      $sql = "SELECT * FROM admin WHERE fingerprint = :fingerprint AND NOT deleted = 1";
     } else {
-      $sql = "SELECT * FROM admin WHERE email = :email";
+      $sql = "SELECT * FROM admin WHERE email = :email AND NOT deleted = 1";
     }
   } else if ($user_type == "user") {
     if ($fingerprint) {
-      $sql = "SELECT * FROM user WHERE fingerprint = :fingerprint";
+      $sql = "SELECT * FROM user WHERE fingerprint = :fingerprint AND NOT deleted = 1";
     } else {
-      $sql = "SELECT * FROM user WHERE email = :email";
+      $sql = "SELECT * FROM user WHERE email = :email AND NOT deleted = 1";
     }
   }
 
