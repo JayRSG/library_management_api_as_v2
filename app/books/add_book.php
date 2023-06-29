@@ -17,6 +17,27 @@ function books_validator($data)
   return true;
 }
 
+function isValidISBN13($isbn)
+{
+  // Remove any dashes or spaces from the input
+  $isbn = str_replace(['-', ' '], '', $isbn);
+
+  // Check if the input is a valid ISBN-13 format
+  if (!preg_match('/^\d{13}$/', $isbn)) {
+    return false;
+  }
+
+  // Calculate the checksum digit
+  $sum = 0;
+  for ($i = 0; $i < 12; $i++) {
+    $sum += ($i % 2 === 0) ? (int)$isbn[$i] : (int)$isbn[$i] * 3;
+  }
+  $checksum = (10 - ($sum % 10)) % 10;
+
+  // Compare the calculated checksum with the last digit of the ISBN-13
+  return $checksum === (int)$isbn[12];
+}
+
 /**
  * Add books method
  */
@@ -25,21 +46,23 @@ if (!checkPostMethod()) {
   return;
 }
 
+if (!checkUserType('admin')) {
+  return;
+}
+
 $user = auth();
-
-
 if (!$user) {
   response(['message' => "Unauthenticated"], 401);
   return;
 }
 
-if (!auth_type("admin")) {
-  response(['message' => "Unauthorized"], 401);
+if (!books_validator($_POST)) {
+  response(['data' => "Bad Request"], 400);
   return;
 }
 
-if (!books_validator($_POST)) {
-  response(['data' => "Bad Request"], 400);
+if (!isValidISBN13($_POST['isbn'])) {
+  response(['message' => "Invalid ISBN number"], 400);
   return;
 }
 
@@ -51,7 +74,6 @@ try {
   $description = $_POST['description'] ?? null;
   $quantity = $_POST['quantity'] ?? null;
   $rfid = $_POST['rfid'] ?? null;
-
 
   $sql = "INSERT INTO `book` (`name`, `author`, `isbn`, `publisher`, `quantity`, `description`, `rfid`) 
   VALUES (:name, :author, :isbn, :publisher, :quantity, :description, :rfid)";
