@@ -24,6 +24,7 @@ $routes = [
   "/"                                 =>       app . "/home.php",
   "/books/show"                       =>       app . "/books/show_books.php",
   "/books/add"                        =>       app . "/books/add_book.php",
+  "/books/isbn"                       =>       app . "/books/valid_isbns.php",
   "/book_barcode"                     =>       app . "/book_barcode.php",
   "/borrow_book"                      =>       app . "/borrow_book.php",
   "/sensor"                           =>       app . "/sensor.php",
