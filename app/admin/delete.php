@@ -16,17 +16,12 @@ function delete_validator($data)
   }
 }
 
-if (!auth()) {
-  http_response_code(401);
-  header("location: /");
-}
-
 if (!checkPostMethod()) {
   return;
 }
 
 if (!checkUserType("admin")) {
-  response(['message' => "Unauthorized"], 403);
+  response(['message' => "Unauthorized"], 401);
   return;
 }
 
