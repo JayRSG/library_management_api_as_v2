@@ -17,27 +17,6 @@ function books_validator($data)
   return true;
 }
 
-function isValidISBN13($isbn)
-{
-  // Remove any dashes or spaces from the input
-  $isbn = str_replace(['-', ' '], '', $isbn);
-
-  // Check if the input is a valid ISBN-13 format
-  if (!preg_match('/^\d{13}$/', $isbn)) {
-    return false;
-  }
-
-  // Calculate the checksum digit
-  $sum = 0;
-  for ($i = 0; $i < 12; $i++) {
-    $sum += ($i % 2 === 0) ? (int)$isbn[$i] : (int)$isbn[$i] * 3;
-  }
-  $checksum = (10 - ($sum % 10)) % 10;
-
-  // Compare the calculated checksum with the last digit of the ISBN-13
-  return $checksum === (int)$isbn[12];
-}
-
 /**
  * Add books method
  */
