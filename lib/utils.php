@@ -21,8 +21,7 @@ function auth_type()
 function checkUserType($type)
 {
   if (auth() && auth_type() != $type) {
-    http_response_code(401);
-    echo "Unauthorized";
+    response(['message' => "Unauthorized"], 401);
     return false;
   }
   return true;
@@ -31,8 +30,7 @@ function checkUserType($type)
 function checkPostMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "POST") {
-    http_response_code(403);
-    echo "Forbidden";
+    response(['message' => "Forbidden"], 403);
     return false;
   }
   return true;
@@ -41,8 +39,7 @@ function checkPostMethod()
 function checkGetMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "GET") {
-    http_response_code(403);
-    echo "Forbidden";
+    response(['message' => "Forbidden"], 403);
     return false;
   }
   return true;
@@ -51,8 +48,7 @@ function checkGetMethod()
 function checkPutMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "PUT") {
-    http_response_code(403);
-    echo "Forbidden";
+    response(['message' => "Forbidden"], 403);
     return false;
   }
   return true;
@@ -61,8 +57,7 @@ function checkPutMethod()
 function checkDeleteMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "DELETE") {
-    http_response_code(403);
-    echo "Forbidden";
+    response(['message' => "Forbidden"], 403);
     return false;
   }
   return true;
