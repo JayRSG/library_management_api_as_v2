@@ -1,7 +1,7 @@
 # Project Name
 Library Management API - AS V2
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/Licence-None-blue.svg)](LICENSE)
 
 ## Description
 
