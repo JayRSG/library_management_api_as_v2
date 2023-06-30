@@ -30,7 +30,7 @@ function checkUserType($type)
 function checkPostMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "POST") {
-    response(['message' => "Forbidden"], 403);
+    response(['message' => "Method Not allowed"], 405);
     return false;
   }
   return true;
@@ -39,7 +39,7 @@ function checkPostMethod()
 function checkGetMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "GET") {
-    response(['message' => "Forbidden"], 403);
+    response(['message' => "Method Not allowed"], 405);
     return false;
   }
   return true;
@@ -48,7 +48,7 @@ function checkGetMethod()
 function checkPutMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "PUT") {
-    response(['message' => "Forbidden"], 403);
+    response(['message' => "Method Not allowed"], 405);
     return false;
   }
   return true;
@@ -57,7 +57,7 @@ function checkPutMethod()
 function checkDeleteMethod()
 {
   if ($_SERVER['REQUEST_METHOD'] != "DELETE") {
-    response(['message' => "Forbidden"], 403);
+    response(['message' => "Method Not allowed"], 405);
     return false;
   }
   return true;
