@@ -16,4 +16,3 @@ try {
   echo 'Connection failed: ' . $e->getMessage();
 }
 
-require __DIR__ . "../../lib/utils.php";

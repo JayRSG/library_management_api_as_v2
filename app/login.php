@@ -2,7 +2,6 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-require __DIR__ . "../../config/config.php";
 
 function login_validator($data)
 {
