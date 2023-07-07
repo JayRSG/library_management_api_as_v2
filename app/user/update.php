@@ -121,7 +121,7 @@ if (isset($_POST['update']) && $_POST['update'] == true) {
       if ($updateStmt->rowCount() > 0) {
         response(['message' => "Successfully updated"], 200);
       } else {
-        response(['message' => "Update Failed"], 304);
+        response(['message' => "Update Failed"], 400);
       }
     }
   } catch (PDOException $e) {
