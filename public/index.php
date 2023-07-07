@@ -4,10 +4,15 @@ define('root', '../..');
 define('app',  root . '/app');
 
 require_once __DIR__ . '../../vendor/autoload.php';
+require_once __DIR__ . "../../lib/utils.php";
+
 
 // Load the .env file for accessing client secrets
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();
+
+// Get the config information
+require_once __DIR__ . "../../config/config.php";
 
 // Get the request method GET, POST, PUT, DELETE
 $request = $_SERVER['REQUEST_URI'];
@@ -27,8 +32,12 @@ $routes = [
   "/books/update"                     =>       app . "/books/update_book.php",
   "/books/delete"                     =>       app . "/books/delete_book.php",
   "/books/isbn"                       =>       app . "/books/valid_isbns.php",
-  "/book_barcode"                     =>       app . "/book_barcode.php",
-  "/borrow_book"                      =>       app . "/borrow_book.php",
+  "/books/borrow_book"                =>       app . "/ancillary/borrow_book.php",
+  "/books/borrow_list"                =>       app . "/ancillary/borrow_list.php",
+  "/books/search_borrow_info"         =>       app . "/ancillary/search_borrowed_book.php",
+  "/books/return_book"                =>       app . "/ancillary/return_book.php",
+  "/books/calculate_fine"             =>       app . "/ancillary/calculate_fine.php",
+  "/books/pay_fine"                   =>       app . "/ancillary/pay_fine.php",
   "/sensor"                           =>       app . "/sensor.php",
   "/login"                            =>       app . "/login.php",
   "/logout"                           =>       app . "/logout.php",
@@ -50,9 +59,8 @@ if (array_key_exists($path, $routes)) {
   $_GET = $queryParams;
 
   // include file according to the route
-  require $file;
+  require_once $file;
 } else {
   // if the route not found return a 404 message
-  http_response_code(404);
-  require __DIR__ . '/../app/error404.php';
+  response(['message' => "Route Not Found"], 404);
 }
