@@ -1,10 +1,23 @@
 <?php
+
 session_start();
 define('root', '../..');
 define('app',  root . '/app');
 
 require_once __DIR__ . '../../vendor/autoload.php';
 require_once __DIR__ . "../../lib/utils.php";
+
+// Handle the request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  // Enable CORS
+  response("", 204, [
+    'Access-Control-Allow-Origin' => 'http://libraryman.com',
+    'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE',
+    'Access-Control-Allow-Headers' => 'Content-Type',
+    'Access-Control-Allow-Credentials' => 'true'
+  ]);
+  return;
+}
 
 
 // Load the .env file for accessing client secrets
@@ -59,6 +72,7 @@ if (array_key_exists($path, $routes)) {
   $_GET = $queryParams;
 
   // include file according to the route
+  
   require_once $file;
 } else {
   // if the route not found return a 404 message
