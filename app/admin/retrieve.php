@@ -1,33 +1,33 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 /**
  * Get user
  */
 
 if (!checkGetMethod()) {
-  return;
+  exit;
 }
 
-if (!checkUserType("admin")) {
+$user = auth();
+if (!checkUserType("admin") && $user['id'] == 1) {
   return;
 }
 
 try {
-  $user = auth();
-
   if ($user) {
-    $stmt = $conn->prepare("SELECT id, first_name, last_name, email FROM admin WHERE email = :email");
+    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, active FROM admin WHERE email = :email LIMIT 1");
 
     $stmt->bindParam(':email', $user['email']);
 
-    $stmt->execute();
+    $result = $stmt->execute();
 
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $data = $stmt->fetchObject();
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    response(["data" => $data], 200);
+    if ($data && $stmt->rowCount() > 0) {
+      response(["data" => $data], 200);
+    } else {
+      response(["message" => "Not Found"], 404);
+    }
   } else {
     response(["data" => "Unauthenticated"], 401);
   }

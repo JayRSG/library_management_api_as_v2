@@ -1,7 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-
 
 function login_validator($data)
 {
@@ -73,11 +70,11 @@ try {
       response(['message' => "Login Successful"], 200);
     } else {
       // Password or fingerprint does not match
-      response(["messaga" => "Invalid credentials"], 404);
+      response(["message" => "Invalid credentials"], 404);
     }
   } else {
     // User not found
-    response(["messaga" => "Users not found"], 200);
+    response(["message" => "User not found"], 404);
   }
 } catch (PDOException $e) {
   response(['message' => $e->getMessage()], 500);

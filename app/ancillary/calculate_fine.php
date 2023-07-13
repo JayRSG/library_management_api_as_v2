@@ -1,6 +1,5 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+
 
 function calculate_fine($return_date_diff, $current_date_diff)
 {
