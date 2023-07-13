@@ -1,6 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 /**
  * Get user
@@ -17,16 +15,18 @@ if (!checkUserType("user")) {
 try {
   $user = auth();
   if ($user) {
-    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, student_id, semester, department FROM user WHERE email = :email");
+    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, student_id, semester, department FROM user WHERE email = :email LIMIT 1");
 
     $stmt->bindParam(':email', $user['email']);
 
-    $stmt->execute();
+    $result = $stmt->execute();
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $data = $stmt->fetchObject();
-
-    response(["data" => $data], 200);
+    if ($result && $stmt->rowCount() > 0) {
+      response(["data" => $data], 200);
+    } else {
+      response(["message" => 'Not Found'], 404);
+    }
   } else {
     response(['message' => "Unauthenticated"], 401);
   }
