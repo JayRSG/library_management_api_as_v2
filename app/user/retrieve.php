@@ -15,7 +15,7 @@ if (!checkUserType("user")) {
 try {
   $user = auth();
   if ($user) {
-    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, student_id, semester, department FROM user WHERE email = :email LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, phone, student_id, semester, department FROM user WHERE email = :email LIMIT 1");
 
     $stmt->bindParam(':email', $user['email']);
 
