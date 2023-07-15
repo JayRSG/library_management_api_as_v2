@@ -18,7 +18,7 @@ if (!checkPostMethod()) {
 }
 
 if (auth()) {
-  response(['message' => 'Already Logged in'], 200);
+  response(['message' => 'Already Logged in'], 400);
   return;
 }
 
