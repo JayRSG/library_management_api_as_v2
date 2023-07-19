@@ -2,7 +2,7 @@
 
 function login_validator($data)
 {
-  if (((isset($data['email']) && isset($data['password'])) || isset($data['fingerprint'])) && isset($data['user_type'])) {
+  if (((isset($data['email']) && isset($data['password'])) || isset($data['fingerprint'])) && isset($data['user_type']) && ($data['user_type'] == "user" || $data['user_type'] == "admin")) {
     return true;
   } else {
     return false;
