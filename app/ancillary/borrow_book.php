@@ -73,7 +73,13 @@ try {
     $result = $stmt->execute();
 
     if ($result && $stmt->rowCount() > 0) {
-      response(['message' => 'Book borrowed succesfully'], 200);
+      // Update Book Remaining_Qty
+      $result = updateBookStock($conn, $book_id);
+      if (!$result) {
+        response(['message' => 'Book borrowed succesfully, Stock Update failed'], 200);
+      } else {
+        response(['message' => 'Book borrowed succesfully'], 200);
+      }
     } else {
       response(['message' => 'Book Borrowing Failed'], 400);
     }
