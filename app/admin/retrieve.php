@@ -29,7 +29,7 @@ try {
       response(["message" => "Not Found"], 404);
     }
   } else {
-    response(["data" => "Unauthenticated"], 401);
+    response(null, 401);
   }
 } catch (PDOException $e) {
   response(['message' => $e->getMessage()], 500);
