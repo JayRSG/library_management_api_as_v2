@@ -21,7 +21,7 @@ function auth_type()
 function checkUserType($type)
 {
   if (auth() && auth_type() != $type) {
-    response(['message' => "Unauthorized"], 401);
+    response("", 401);
     return false;
   }
   return true;
@@ -79,7 +79,9 @@ function response($response, $code = 200, $headers = null)
   }
 
   http_response_code($code);
-  echo json_encode($response);
+  if ($response != "") {
+    echo json_encode($response);
+  }
 }
 
 function isValidISBN13($isbn)
@@ -101,4 +103,20 @@ function isValidISBN13($isbn)
 
   // Compare the calculated checksum with the last digit of the ISBN-13
   return $checksum === (int)$isbn[12];
+}
+
+function updateBookStock($conn, $id)
+{
+  $sql = "UPDATE book
+  SET remaining_qty = (
+    SELECT COUNT(*) 
+    FROM book_borrow 
+    WHERE book_borrow.book_id = book.id AND returned = 0
+  ) WHERE id = :id";
+
+  $stmt = $conn->prepare($sql);
+  $stmt->bindParam(":id", $id);
+  $result = $stmt->execute();
+
+  return $result;
 }
