@@ -39,10 +39,16 @@ try {
   $all = $_GET['all'] ?? null;
 
   $book_id = $_GET['book_id'] ?? null;
-  $user_id = $_GET['user_id'] ?? null;
   $borrow_date = $_GET['date_from'] ?? null;
   $borrow_date_range = $_GET['date_to'] ?? null;
   $returned = isset($_GET['returned']) && $_GET['returned'] != "" && ($_GET['returned'] == 1 || $_GET['returned'] == 0) ? $_GET['returned'] : -1;
+
+  $user_id = $_GET['user_id'] ?? null;
+  if (auth_type() == "user" && ($all || $user_id != $user['id'])) {
+    response(['message' => 'Not Found'], 404);
+    return;
+  }
+
 
   $sql = "";
   $bind_params = [];
@@ -55,7 +61,8 @@ try {
       $bind_params[":returned"] = $returned;
     }
   } else {
-    $sql = "SELECT * from book_borrow WHERE ";
+    $sql = "SELECT book_borrow.*, book.name from book_borrow 
+    INNER JOIN book on book_borrow.book_id = book.id WHERE ";
 
     if (!empty($id)) {
       $sql .= "id = :id AND";
