@@ -48,11 +48,9 @@ try {
   $isbn = $_POST['isbn'];
   $publisher = $_POST['publisher'];
   $description = $_POST['description'] ?? null;
-  $quantity = $_POST['quantity'] ?? null;
-  $rfid = $_POST['rfid'] ?? null;
 
-  $sql = "INSERT INTO `book` (`name`, `author`, `isbn`, `publisher`, `quantity`, `description`, `rfid`) 
-  VALUES (:name, :author, :isbn, :publisher, :quantity, :description, :rfid)";
+  $sql = "INSERT INTO `book` (`name`, `author`, `isbn`, `publisher`, `description`) 
+  VALUES (:name, :author, :isbn, :publisher, :description)";
 
   $stmt = $conn->prepare($sql);
 
@@ -60,13 +58,11 @@ try {
   $stmt->bindParam(":author", $author);
   $stmt->bindParam(":isbn", $isbn);
   $stmt->bindParam(":publisher", $publisher);
-  $stmt->bindParam(":quantity", $quantity);
   $stmt->bindParam(":description", $description);
-  $stmt->bindParam(":rfid", $rfid);
 
   $result = $stmt->execute();
 
-  if ($stmt->rowCount() > 0) {
+  if ($result && $stmt->rowCount() > 0) {
     response(['message' => "Book inserted successfully"], 200);
   } else {
     response(['message' => "Book Insertion failed"], 400);

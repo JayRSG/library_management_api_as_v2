@@ -36,15 +36,15 @@ try {
 
   if ($user_type == "admin") {
     if ($fingerprint) {
-      $sql = "SELECT * FROM admin WHERE fingerprint = :fingerprint";
+      $sql = "SELECT * FROM admin WHERE fingerprint = :fingerprint LIMIT 1";
     } else {
-      $sql = "SELECT * FROM admin WHERE email = :email";
+      $sql = "SELECT * FROM admin WHERE email = :email LIMIT 1";
     }
   } else if ($user_type == "user") {
     if ($fingerprint) {
-      $sql = "SELECT * FROM user WHERE fingerprint = :fingerprint AND deleted IS NOT true";
+      $sql = "SELECT * FROM user WHERE fingerprint = :fingerprint AND deleted IS NOT true LIMIT 1";
     } else {
-      $sql = "SELECT * FROM user WHERE email = :email AND deleted IS NOT true";
+      $sql = "SELECT * FROM user WHERE email = :email AND deleted IS NOT true LIMIT 1";
     }
   }
 
@@ -56,12 +56,12 @@ try {
     $stmt->bindParam(':fingerprint', $fingerprint);
   }
 
-  $stmt->execute();
+  $result = $stmt->execute();
 
   // Fetch the user data
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  if ($user) {
+  if ($result && $stmt->rowCount() == 1) {
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
     // User found, check the password or fingerprint
     if (password_verify($password, $user['password']) || ($fingerprint != NULL && $fingerprint === $user['fingerprint'])) {
       // Password or fingerprint matches, allow login

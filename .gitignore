@@ -4,3 +4,4 @@
 database/library_management_as.sql
 lib/postman_thunder-collection_library_management_api_sa_postman.json
 lib/thunder-collection_library_management_api_sa.json
+.vscode/*

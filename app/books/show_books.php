@@ -32,8 +32,8 @@ try {
       $sql .= "name LIKE :search_term OR author LIKE :search_term OR publisher LIKE :search_term OR isbn = :search_term";
     }
   }
-
-  $sql = rtrim($sql, "OR ");
+  
+  // $sql = rtrim($sql, "OR ");
 
   if ($sql != "") {
     $stmt = $conn->prepare($sql);
@@ -46,7 +46,7 @@ try {
     $result = $stmt->execute();
     if ($id) {
       $book = $stmt->fetch(PDO::FETCH_ASSOC);
-    } else if ($search_term) {
+    } else if ($all || $search_term) {
       $book = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
   }
@@ -54,8 +54,8 @@ try {
   if ($result && $stmt->rowCount() > 0) {
     response(['data' => $book], 200);
   } else {
-    response(['message' => "Book Not Found", $sql], 404);
+    response(['message' => "Book Not Found"], 404);
   }
 } catch (PDOException $e) {
-  response(['message' => $e->getMessage(), $sql], 500);
+  response(['message' => $e->getMessage()], 500);
 }
