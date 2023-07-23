@@ -42,6 +42,7 @@ $routes = [
   "/"                                 =>       app . "/home.php",
   "/books/show"                       =>       app . "/books/show_books.php",
   "/books/add"                        =>       app . "/books/add_book.php",
+  "/books/add_book_stock"             =>       app . "/books/add_book_stock.php",
   "/books/update"                     =>       app . "/books/update_book.php",
   "/books/delete"                     =>       app . "/books/delete_book.php",
   "/books/isbn"                       =>       app . "/books/valid_isbns.php",

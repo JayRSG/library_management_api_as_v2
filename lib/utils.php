@@ -120,3 +120,13 @@ function updateBookStock($conn, $id)
 
   return $result;
 }
+
+function updateBookCount($conn, $book_id)
+{
+  $sql = "UPDATE book SET quantity = (SELECT COUNT(*) from book_rfid_rel WHERE book_id = :book_id) where id = :book_id";
+  $stmt = $conn->prepare($sql);
+  $stmt->bindParam(":book_id", $book_id);
+  $result = $stmt->execute();
+
+  return $result;
+}
