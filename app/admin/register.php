@@ -38,8 +38,8 @@ try {
   $password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
   $fingerprint = $_POST['fingerprint'] ?? null;
 
-  $sql = "INSERT INTO `admin` (`first_name`, `last_name`, `email`, `password`, `fingerprint`)
-  VALUES(:first_name, :last_name, :email, :pass, :fingerprint)";
+  $sql = "INSERT INTO `admin` (`first_name`, `last_name`, `email`, `password`)
+  VALUES(:first_name, :last_name, :email, :pass)";
 
   $stmt = $conn->prepare($sql);
 
@@ -47,7 +47,7 @@ try {
   $stmt->bindParam(':last_name', $lastName, PDO::PARAM_STR);
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
   $stmt->bindParam(':pass', $password, PDO::PARAM_STR);
-  $stmt->bindParam(':fingerprint', $fingerprint, PDO::PARAM_STR);
+  // $stmt->bindParam(':fingerprint', $fingerprint, PDO::PARAM_STR);
 
   $stmt->execute();
 

@@ -8,7 +8,7 @@ function register_validator($data)
     !isset($data['email']) ||
     !isset($data['password']) ||
     !isset($data['student_id']) ||
-    !isset($data['semester']) ||
+    // !isset($data['semester']) ||
     !isset($data['department'])
   ) {
     return false;
@@ -42,11 +42,11 @@ try {
   $password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
   $student_id = $_POST['student_id'] ?? null;
   $fingerprint = $_POST['fingerprint'] ?? null;
-  $semester = $_POST['semester'] ?? null;
+  // $semester = $_POST['semester'] ?? null;
   $department = $_POST['department'] ?? null;
 
-  $sql = "INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `student_id`, `fingerprint`, `semester`, `department`) 
-          VALUES (:first_name, :last_name, :email, :pass, :student_id, :fingerprint, :semester, :department)";
+  $sql = "INSERT INTO `user` (`first_name`, `last_name`, `email`, `password`, `student_id`, `department`) 
+          VALUES (:first_name, :last_name, :email, :pass, :student_id, :department)";
   $stmt = $conn->prepare($sql);
 
   $stmt->bindParam(':first_name', $firstName, PDO::PARAM_STR);
@@ -54,9 +54,9 @@ try {
   $stmt->bindParam(':email', $email, PDO::PARAM_STR);
   $stmt->bindParam(':pass', $password, PDO::PARAM_STR);
   $stmt->bindParam(':student_id', $student_id, PDO::PARAM_STR);
-  $stmt->bindParam(':fingerprint', $fingerprint, PDO::PARAM_STR);
-  $stmt->bindParam(':semester', $semester, PDO::PARAM_INT);
+  // $stmt->bindParam(':semester', $semester, PDO::PARAM_INT);
   $stmt->bindParam(':department', $department, PDO::PARAM_STR);
+  // $stmt->bindParam(':fingerprint', $fingerprint, PDO::PARAM_STR);
 
   $stmt->execute();
 
