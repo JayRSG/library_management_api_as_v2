@@ -13,18 +13,89 @@ if (!checkUserType("admin")) {
 }
 
 try {
-  $user = auth();
-  if ($user && auth_type() == "admin") {
-    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, student_id, semester, department from user");
+  $student_id = !empty($_GET['student_id']) ? $_GET['student_id'] : null;
+  $email = !empty($_GET['email']) ? $_GET['email'] : null;
+  $phone = !empty($_GET['phone']) ? $_GET['phone'] : null;
+  $active = !empty($_GET['active']) ? $_GET['active'] : null;
+  $deleted = !empty($_GET['deleted']) ? $_GET['deleted'] : null;
 
-    $stmt->execute();
+  $account_type = !empty($_GET['account_type']) ? $_GET['account_type'] : null;
 
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $data = $stmt->fetchAll();
+  if ($deleted && $account_type == "admin") {
+    response(['message' => 'Bad request'], 400);
+    return;
+  }
 
-    response(["data" => $data], 200);
+  if ($active && $account_type == "user") {
+    response(['message' => 'Bad request'], 400);
+    return;
+  }
+
+
+  if (!$account_type && ($account_type != "user" && $account_type != "admin")) {
+    response(['message' => 'Bad Request'], 400);
+    return;
+  }
+
+  $selectable_columns =
+    $account_type == "user" ? ['id, first_name, last_name, gender, email, phone, student_id, department, deleted'] : ($account_type == "admin" ?
+      ['id, first_name, last_name, email, active'] : null);
+
+  if (!$selectable_columns) {
+    response(['message' => 'Bad Request'], 400);
+    return;
+  }
+
+  $sql = "SELECT ";
+  foreach ($selectable_columns as $value) {
+    $sql .= "$value, ";
+  }
+  $sql = rtrim($sql, ", ");
+  $sql .= " FROM $account_type WHERE";
+
+  $params = array();
+
+  if ($student_id) {
+    $sql .= " student_id = :student_id AND";
+    $params[':student_id'] = $student_id;
+  }
+
+  if ($email) {
+    $sql .= " email = :email AND";
+    $params[':email'] = $email;
+  }
+
+  if ($phone) {
+    $sql .= " phone = :phone AND";
+    $params[':phone'] = $phone;
+  }
+
+  if ($deleted) {
+    $sql .= " deleted = :deleted AND";
+    $params[':deleted'] = $deleted;
+  }
+
+  if ($active) {
+    $sql .= " active = :active AND";
+    $params[':active'] = $active;
+  }
+
+
+  $sql = rtrim($sql, " WHERE");
+  $sql = rtrim($sql, " AND");
+
+  $stmt = $conn->prepare($sql);
+
+  foreach ($params as $key => $value) {
+    $stmt->bindValue($key, $value);
+  }
+
+  $result = $stmt->execute();
+  if ($result && $stmt->rowCount() > 0) {
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    response(["data" => $users], 200);
   } else {
-    response(["data" => "Unauthenticated"], 401);
+    response(["message" => "No Users Found"], 404);
   }
 } catch (PDOException $e) {
   response(['message' => $e->getMessage()], 500);
