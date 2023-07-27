@@ -4,7 +4,12 @@ if (!checkPostMethod()) {
   return;
 }
 
-if (!checkUserType('admin')) {
+if(!auth()){
+  response(['message' => "Unauthenticated"], 401);
+  return;
+}
+
+if (!checkUserType("admin")) {
   response(['message' => "Unauthorized"], 401);
   return;
 }
