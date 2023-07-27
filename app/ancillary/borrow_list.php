@@ -50,31 +50,43 @@ try {
   }
 
 
-  $sql = "";
+  $sql = "SELECT book_borrow.*, 
+  issue_admin.first_name as issuer_admin_first_name, issue_admin.last_name as issuer_admin_last_name, 
+  issue_user.first_name issuer_user_first_name, issue_user.last_name issuer_last_user_name, 
+  book.name, book.author, book.publisher, 
+  user.first_name, user.last_name, user.id,
+  return_admin.first_name as return_admin_first_name, return_admin.last_name as return_admin_last_name, 
+  return_user.first_name as return_user_first_name, return_user.last_name as return_user_last_name 
+  
+  FROM book_borrow 
+  INNER join book on book.id = book_id
+  INNER join user on user.id = user_id 
+  INNER join admin issue_admin on issue_admin.id = book_borrow.issue_user_id
+  INNER join user issue_user on issue_user.id = book_borrow.issue_user_id
+  INNER join admin return_admin on return_admin.id = return_user_id
+  INNER join user return_user on return_user.id = return_user_id
+  INNER join book_rfid_rel on book_rfid_rel.id = rfid_rel_id WHERE
+  ";
+
   $bind_params = [];
 
   if (!empty($all) && $all == true) {
-    $sql = "SELECT * FROM book_borrow ";
-
     if ($returned == 1 || $returned == 0) {
-      $sql .= "WHERE returned = :returned";
+      $sql .= " returned = :returned";
       $bind_params[":returned"] = $returned;
     }
   } else {
-    $sql = "SELECT book_borrow.*, book.name from book_borrow 
-    INNER JOIN book on book_borrow.book_id = book.id WHERE ";
-
     if (!empty($id)) {
-      $sql .= "id = :id AND";
+      $sql .= "book_borrow.id = :id AND";
       $bind_params[':id'] = $id;
     } else {
       if (!empty($user_id)) {
-        $sql .= "user_id = :user_id AND ";
+        $sql .= "book_borrow.user_id = :user_id AND ";
         $bind_params[":user_id"] = $user_id;
       }
 
       if (!empty($book_id)) {
-        $sql .= "book_id = :book_id AND ";
+        $sql .= "book_borrow.book_id = :book_id AND ";
         $bind_params[":book_id"] = $book_id;
       }
 
