@@ -52,7 +52,7 @@ try {
 
   $sql = "SELECT book_borrow.*, 
   issue_admin.first_name as issuer_admin_first_name, issue_admin.last_name as issuer_admin_last_name, 
-  issue_user.first_name issuer_user_first_name, issue_user.last_name issuer_last_user_name, 
+  issue_user.first_name issuer_user_first_name, issue_user.last_name issuer_user_last_name, 
   book.name, book.author, book.publisher, 
   user.first_name, user.last_name, user.id as user_id,
   return_admin.first_name as return_admin_first_name, return_admin.last_name as return_admin_last_name, 
