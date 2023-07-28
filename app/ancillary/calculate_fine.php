@@ -1,24 +1,26 @@
 <?php
-
-function calculate_fine($return_date_diff, $current_date_diff)
+function validate($data)
+{
+  if (auth_type() == "admin") {
+    if (empty($data['book_borrow_id']) && empty($data['user_id'])) {
+      return false;
+    }
+  }
+  return true;
+}
+function calculate_fine($date_diff)
 {
   $fine = 0;
   $fine_per_day = 10;
   $response = [];
 
-  if ($return_date_diff != null && $return_date_diff > 14) {
-    $fine = ($return_date_diff - 14) * $fine_per_day;
+  if ($date_diff != null) {
+    $fine = $date_diff * $fine_per_day;
     $response['fine'] = $fine;
     $response['validity'] = 14;
-    $response['fined_days'] = $return_date_diff - 14;
-    $response['book_kept_for_days'] = $return_date_diff + 0;
-  } else if ($return_date_diff == null && $current_date_diff != null && $current_date_diff > 14) {
-    $fine = ($current_date_diff - 14) * $fine_per_day;
-    $response['fine'] = $fine;
-    $response['validity'] = 14;
-    $response['fined_days'] = $current_date_diff - 14;
-    $response['book_kept_for_days'] = $current_date_diff + 0;
-  } else if ($return_date_diff <= 14 || $current_date_diff <= 14) {
+    $response['fined_days'] = $date_diff;
+    $response['book_kept_for_days'] = $date_diff + 0;
+  } else if ($date_diff <= 14) {
     $fine = 0;
     $response['fine'] = $fine;
   } else {
@@ -37,6 +39,12 @@ if (!auth()) {
 
 // Method Check
 if (!checkPostMethod()) {
+  return;
+}
+
+
+if (!validate($_POST)) {
+  response(['message' => 'Bad Request'], 400);
   return;
 }
 
@@ -65,8 +73,8 @@ try {
   bb.late_fine, 
   bb.returned, 
   NOW() as current_date_time, 
-  DATEDIFF(bb.return_time, bb.borrow_time) as return_date_diff, 
-  DATEDIFF(NOW(), bb.borrow_time) as current_date_diff
+  DATEDIFF(bb.return_time, bb.due_time) as return_date_diff, 
+  DATEDIFF(NOW(), bb.due_time) as current_date_diff
   FROM book_borrow bb
   INNER JOIN book b ON bb.book_id = b.id
   INNER JOIN user u ON bb.user_id = u.id
@@ -77,16 +85,20 @@ try {
   $stmt->bindParam(":user_id", $user_id);
   $result = $stmt->execute();
 
+  $fine_info = "";
+
   if ($result && $stmt->rowCount() > 0) {
     $borrow_info = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!empty($borrow_info['returned_date_diff']) &&  $borrow_info['returned_date_diff'] > 0) {
+      $fine_info = calculate_fine($borrow_info['return_date_diff']);
+    } else if (!empty($borrow_info['current_date_diff']) && $borrow_info['current_date_diff'] > 0) {
+      $fine_info = calculate_fine($borrow_info['current_date_diff']);
+    }
 
     response([
       'data' =>
       [
-        "fine_info" => $borrow_info['returned'] == 0 ? calculate_fine(
-          $borrow_info['return_date_diff'],
-          $borrow_info['current_date_diff']
-        ) : null, "borrow_info" => $borrow_info
+        "fine_info" => $fine_info, "borrow_info" => $borrow_info
       ]
     ], 200);
   } else {
