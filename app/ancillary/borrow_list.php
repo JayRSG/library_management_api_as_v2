@@ -54,19 +54,18 @@ try {
   issue_admin.first_name as issuer_admin_first_name, issue_admin.last_name as issuer_admin_last_name, 
   issue_user.first_name issuer_user_first_name, issue_user.last_name issuer_last_user_name, 
   book.name, book.author, book.publisher, 
-  user.first_name, user.last_name, user.id,
+  user.first_name, user.last_name, user.id as user_id,
   return_admin.first_name as return_admin_first_name, return_admin.last_name as return_admin_last_name, 
   return_user.first_name as return_user_first_name, return_user.last_name as return_user_last_name 
   
   FROM book_borrow 
-  INNER join book on book.id = book_id
-  INNER join user on user.id = user_id 
-  INNER join admin issue_admin on issue_admin.id = book_borrow.issue_user_id
-  INNER join user issue_user on issue_user.id = book_borrow.issue_user_id
-  INNER join admin return_admin on return_admin.id = return_user_id
-  INNER join user return_user on return_user.id = return_user_id
-  INNER join book_rfid_rel on book_rfid_rel.id = rfid_rel_id WHERE
-  ";
+  INNER JOIN book ON book.id = book_id
+INNER JOIN user ON user.id = book_borrow.user_id
+INNER JOIN book_rfid_rel ON book_rfid_rel.id = rfid_rel_id
+LEFT JOIN admin issue_admin ON (book_borrow.issue_user_type = 'admin' AND issue_admin.id = book_borrow.issue_user_id)
+LEFT JOIN user issue_user ON (book_borrow.issue_user_type = 'user' AND issue_user.id = book_borrow.issue_user_id)
+LEFT JOIN admin return_admin ON (book_borrow.return_user_type = 'admin' AND return_admin.id = book_borrow.return_user_id)
+LEFT JOIN user return_user ON (book_borrow.return_user_type = 'user' AND return_user.id = book_borrow.return_user_id) WHERE ";
 
   $bind_params = [];
 
