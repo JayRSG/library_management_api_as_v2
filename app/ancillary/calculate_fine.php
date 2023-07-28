@@ -83,10 +83,10 @@ try {
     response([
       'data' =>
       [
-        "fine_info" => calculate_fine(
+        "fine_info" => $borrow_info['returned'] == 0 ? calculate_fine(
           $borrow_info['return_date_diff'],
           $borrow_info['current_date_diff']
-        ), "borrow_info" => $borrow_info
+        ) : null, "borrow_info" => $borrow_info
       ]
     ], 200);
   } else {
