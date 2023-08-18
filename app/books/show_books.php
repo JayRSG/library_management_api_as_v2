@@ -29,10 +29,10 @@ try {
     if ($id) {
       $sql .= "id = :id LIMIT 1";
     } else if ($search_term) {
-      $sql .= "name LIKE :search_term OR author LIKE :search_term OR publisher LIKE :search_term OR isbn = :search_term";
+      $sql .= "name LIKE :search_term OR author LIKE :search_term OR publisher LIKE :search_term OR isbn = :isbn OR call_number = :call_number";
     }
   }
-  
+
   // $sql = rtrim($sql, "OR ");
 
   if ($sql != "") {
@@ -42,6 +42,8 @@ try {
     }
     if ($search_term) {
       $stmt->bindValue(':search_term', '%' . $search_term . '%');
+      $stmt->bindValue(":isbn", $search_term);
+      $stmt->bindValue(":call_number", $search_term);
     }
     $result = $stmt->execute();
     if ($id) {
