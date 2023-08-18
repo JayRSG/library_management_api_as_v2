@@ -1,0 +1,757 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "library_management_api_sa",
+    "dateExported": "2023-08-11T07:34:17.783Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "72cb7ab0-1e33-451e-a3c7-d71f8496d0a6",
+            "name": "User",
+            "containerId": "",
+            "created": "2023-06-27T18:02:43.838Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "63184e8b-ec59-4d2a-9513-5042b8f2c969",
+            "name": "Admin",
+            "containerId": "",
+            "created": "2023-06-27T18:03:04.226Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "1e208395-3fd7-45ca-841f-570806afe95a",
+            "name": "Books",
+            "containerId": "",
+            "created": "2023-06-28T11:07:17.606Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "8a1d56ca-bd53-4a37-8876-33942e34772e",
+            "name": "Book-Issue",
+            "containerId": "",
+            "created": "2023-06-30T11:09:31.347Z",
+            "sortNum": 40000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "30208195-6c9c-4efd-b2ea-6fc6ac82b405",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "",
+            "name": "Login",
+            "url": "api.libraryman.com/login",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-06-25T11:42:49.104Z",
+            "modified": "2023-07-26T12:01:49.871Z",
+            "headers": [
+                {
+                    "name": "Referer",
+                    "value": "http://libraryman.com"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "email",
+                        "value": "arafat@email.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "12345"
+                    },
+                    {
+                        "name": "user_type",
+                        "value": "admin"
+                    },
+                    {
+                        "name": "user_type",
+                        "value": "user",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "53c8b983-e34e-4fc2-bd16-4c29fdf42cca",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "72cb7ab0-1e33-451e-a3c7-d71f8496d0a6",
+            "name": "User-Register",
+            "url": "api.libraryman.com/user/register",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-06-26T12:24:20.749Z",
+            "modified": "2023-07-23T16:42:20.709Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "first_name",
+                        "value": "Joy Ram"
+                    },
+                    {
+                        "name": "last_name",
+                        "value": "Sen Gupta"
+                    },
+                    {
+                        "name": "email",
+                        "value": "jaysen110@gmail.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "12345"
+                    },
+                    {
+                        "name": "student_id",
+                        "value": "15202025"
+                    },
+                    {
+                        "name": "semester",
+                        "value": "12",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "department",
+                        "value": "CSE"
+                    },
+                    {
+                        "name": "fingerprint",
+                        "value": "156525458565211",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "4351aa39-af3a-48ce-b4e7-e50c120652a8",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "",
+            "name": "logout",
+            "url": "http://api.libraryman.com/logout",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-06-26T19:09:22.580Z",
+            "modified": "2023-06-27T18:23:05.799Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "logout",
+                        "value": "true"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "a9b7ee5c-4a10-4da1-82cd-b967913d6943",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "72cb7ab0-1e33-451e-a3c7-d71f8496d0a6",
+            "name": "User-Get",
+            "url": "api.libraryman.com/user",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-06-26T12:24:08.478Z",
+            "modified": "2023-06-27T18:02:50.900Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "70d7f48f-6c08-4481-9420-dce243da14e9",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "72cb7ab0-1e33-451e-a3c7-d71f8496d0a6",
+            "name": "User-Update",
+            "url": "http://api.libraryman.com/user/update",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-06-26T14:10:26.403Z",
+            "modified": "2023-06-28T10:41:52.093Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "update",
+                        "value": "true"
+                    },
+                    {
+                        "name": "email",
+                        "value": "jaysen110@gmail.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "12345"
+                    },
+                    {
+                        "name": "fingerprint",
+                        "value": "1565254552565458",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "semester",
+                        "value": "12"
+                    },
+                    {
+                        "name": "first_name",
+                        "value": "Joy Ram"
+                    },
+                    {
+                        "name": "last_name",
+                        "value": "Sen Gupta"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "7df627b4-c0c2-4cb3-abc4-2d96f6e4efab",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "72cb7ab0-1e33-451e-a3c7-d71f8496d0a6",
+            "name": "User-Delete",
+            "url": "http://api.libraryman.com/user/delete",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2023-06-26T19:04:39.135Z",
+            "modified": "2023-06-27T18:02:52.892Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "destroy",
+                        "value": "true"
+                    },
+                    {
+                        "name": "email",
+                        "value": "jaysen110@gmail.com"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "d5fd9171-e0eb-4704-bf3a-bf0f1d2c4f20",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "63184e8b-ec59-4d2a-9513-5042b8f2c969",
+            "name": "Admin-Register",
+            "url": "http://api.libraryman.com/admin/register",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-06-27T18:03:30.162Z",
+            "modified": "2023-07-08T09:08:22.487Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "first_name",
+                        "value": "Aseef"
+                    },
+                    {
+                        "name": "last_name",
+                        "value": "Iqbal"
+                    },
+                    {
+                        "name": "email",
+                        "value": "iqbal@email.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "12345"
+                    },
+                    {
+                        "name": "fingerprint",
+                        "value": "15545651525365"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "aafc89d2-3e58-4593-a573-dec82728679c",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "63184e8b-ec59-4d2a-9513-5042b8f2c969",
+            "name": "Admin-Get",
+            "url": "http://api.libraryman.com/admin",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2023-06-27T18:16:03.017Z",
+            "modified": "2023-06-27T18:20:34.516Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bcffa808-e81e-4816-8a0d-1b4832a758a9",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "63184e8b-ec59-4d2a-9513-5042b8f2c969",
+            "name": "Admin-Users",
+            "url": "http://api.libraryman.com/admin/users?account_type=admin",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2023-06-27T19:36:46.234Z",
+            "modified": "2023-07-25T14:44:07.063Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "account_type",
+                    "value": "admin",
+                    "isPath": false
+                },
+                {
+                    "name": "student_id",
+                    "value": "16202025",
+                    "isDisabled": true,
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "8889e241-32e1-4e43-8432-1853645ac519",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "63184e8b-ec59-4d2a-9513-5042b8f2c969",
+            "name": "Admin-Delete User",
+            "url": "http://api.libraryman.com/admin/deleteUser",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2023-06-28T06:57:28.054Z",
+            "modified": "2023-06-28T07:25:08.989Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "email",
+                        "value": "arafat@email.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "12345"
+                    },
+                    {
+                        "name": "user_data[email]",
+                        "value": "jaysen110@gmail.com",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "user_data[id]",
+                        "value": "2"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "bb753aad-8f38-4bbe-aa8d-87cd82ae11f8",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "1e208395-3fd7-45ca-841f-570806afe95a",
+            "name": "Books-Show",
+            "url": "http://api.libraryman.com/books/show?id=4",
+            "method": "GET",
+            "sortNum": 110000,
+            "created": "2023-06-28T11:07:37.278Z",
+            "modified": "2023-07-16T11:56:59.021Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "4",
+                    "isPath": false
+                },
+                {
+                    "name": "all",
+                    "value": "true",
+                    "isDisabled": true,
+                    "isPath": false
+                },
+                {
+                    "name": "search_term",
+                    "value": "Science",
+                    "isDisabled": true,
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "ac2597d4-5f52-406d-b7d1-2fe00504cbb1",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "1e208395-3fd7-45ca-841f-570806afe95a",
+            "name": "Books-Add",
+            "url": "http://api.libraryman.com/books/add",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2023-06-28T12:37:21.675Z",
+            "modified": "2023-06-29T05:31:35.619Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Dekhna cheye oi tara ta"
+                    },
+                    {
+                        "name": "author",
+                        "value": "Gilbert"
+                    },
+                    {
+                        "name": "isbn",
+                        "value": "9783161484100"
+                    },
+                    {
+                        "name": "description",
+                        "value": "A book about the nature",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "quantity",
+                        "value": "5",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "publisher",
+                        "value": "Kotha Prakashani"
+                    },
+                    {
+                        "name": "rfid",
+                        "value": "",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "11295342-f18d-4f86-98dc-70670ebd35c0",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "1e208395-3fd7-45ca-841f-570806afe95a",
+            "name": "Books-isbn",
+            "url": "http://api.libraryman.com/books/isbn",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2023-06-29T05:56:37.232Z",
+            "modified": "2023-07-12T10:36:36.672Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d7f12f0a-eeb9-449f-aeef-125c4f12cabb",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "1e208395-3fd7-45ca-841f-570806afe95a",
+            "name": "Books-Update",
+            "url": "http://api.libraryman.com/books/update?id=2",
+            "method": "PUT",
+            "sortNum": 120000,
+            "created": "2023-06-29T07:07:57.712Z",
+            "modified": "2023-06-29T08:05:59.065Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": false
+                }
+            ],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "Aj Himur Biye"
+                    },
+                    {
+                        "name": "author",
+                        "value": "Mohammad Humayun Ahmed"
+                    },
+                    {
+                        "name": "isbn",
+                        "value": "",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "description",
+                        "value": "",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "quantity",
+                        "value": "",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "publisher",
+                        "value": "",
+                        "isDisabled": true
+                    },
+                    {
+                        "name": "rfid",
+                        "value": "",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "9c001d3d-1afb-41be-b207-ef7597f885f6",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "1e208395-3fd7-45ca-841f-570806afe95a",
+            "name": "Book-Delete",
+            "url": "http://api.libraryman.com/books/delete?id=10",
+            "method": "DELETE",
+            "sortNum": 130000,
+            "created": "2023-06-29T12:30:47.073Z",
+            "modified": "2023-06-29T12:34:41.142Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "10",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "d5b4d1e5-7fee-48cf-bb0c-fd8526446b08",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "8a1d56ca-bd53-4a37-8876-33942e34772e",
+            "name": "Borrow-List",
+            "url": "http://api.libraryman.com/books/borrow_list?all=true",
+            "method": "GET",
+            "sortNum": 140000,
+            "created": "2023-06-30T11:09:58.421Z",
+            "modified": "2023-07-19T10:42:01.809Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "all",
+                    "value": "true",
+                    "isPath": false
+                },
+                {
+                    "name": "returned",
+                    "value": "",
+                    "isDisabled": true,
+                    "isPath": false
+                },
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isDisabled": true,
+                    "isPath": false
+                },
+                {
+                    "name": "user_id",
+                    "value": "1",
+                    "isDisabled": true,
+                    "isPath": false
+                },
+                {
+                    "name": "book_id",
+                    "value": "2",
+                    "isDisabled": true,
+                    "isPath": false
+                },
+                {
+                    "name": "rfid_id",
+                    "value": "1",
+                    "isDisabled": true,
+                    "isPath": false
+                },
+                {
+                    "name": "date_from",
+                    "value": "2023-04-01",
+                    "isDisabled": true,
+                    "isPath": false
+                },
+                {
+                    "name": "date_to",
+                    "value": "2023-06-25",
+                    "isDisabled": true,
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "9b92a1b4-0ec1-4bcc-93b7-498c1017ea4c",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "8a1d56ca-bd53-4a37-8876-33942e34772e",
+            "name": "Search-Borrow-Information",
+            "url": "http://api.libraryman.com/books/search_borrow_info",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2023-07-03T11:25:05.364Z",
+            "modified": "2023-07-26T11:20:12.015Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "rfid",
+                        "value": "1365422628"
+                    },
+                    {
+                        "name": "order_by",
+                        "value": "",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "f72de755-e6bd-4b99-b3af-caabb514a158",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "8a1d56ca-bd53-4a37-8876-33942e34772e",
+            "name": "Borrow-Book",
+            "url": "http://api.libraryman.com/books/borrow_book",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2023-07-07T17:26:41.342Z",
+            "modified": "2023-07-07T19:45:21.143Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "user_id",
+                        "value": "1"
+                    },
+                    {
+                        "name": "rfid",
+                        "value": "1365422628"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "c2139b53-eeaa-4eac-af6d-a3ab6e6c3166",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "8a1d56ca-bd53-4a37-8876-33942e34772e",
+            "name": "Calculate-fine",
+            "url": "http://api.libraryman.com/books/calculate_fine",
+            "method": "POST",
+            "sortNum": 155000,
+            "created": "2023-07-05T07:03:34.026Z",
+            "modified": "2023-07-28T09:15:25.839Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "user_id",
+                        "value": "3"
+                    },
+                    {
+                        "name": "book_borrow_id",
+                        "value": "2"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "a2699e3b-b573-4c7a-9a4b-0a29a2f7cec3",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "8a1d56ca-bd53-4a37-8876-33942e34772e",
+            "name": "Pay-Fine",
+            "url": "http://api.libraryman.com/books/pay_fine",
+            "method": "POST",
+            "sortNum": 157500,
+            "created": "2023-07-05T20:47:21.486Z",
+            "modified": "2023-07-05T20:51:57.138Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "user_id",
+                        "value": "1"
+                    },
+                    {
+                        "name": "book_borrow_id",
+                        "value": "1"
+                    },
+                    {
+                        "name": "fine",
+                        "value": "520"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "5cca8df1-ab36-4ed9-aaef-5bc066af8afe",
+            "colId": "7f0204ea-4462-4c24-8003-29523fb5e14c",
+            "containerId": "8a1d56ca-bd53-4a37-8876-33942e34772e",
+            "name": "Return-Book",
+            "url": "http://api.libraryman.com/books/return_book",
+            "method": "POST",
+            "sortNum": 160000,
+            "created": "2023-07-03T12:44:53.333Z",
+            "modified": "2023-07-07T19:28:17.539Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formencoded",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "id",
+                        "value": "4"
+                    },
+                    {
+                        "name": "user_id",
+                        "value": "1"
+                    },
+                    {
+                        "name": "book_id",
+                        "value": "10"
+                    },
+                    {
+                        "name": "rfid_rel_id",
+                        "value": "11"
+                    }
+                ]
+            },
+            "tests": []
+        }
+    ]
+}
