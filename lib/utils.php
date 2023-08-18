@@ -130,3 +130,36 @@ function updateBookCount($conn, $book_id)
 
   return $result;
 }
+
+function extractStudentInfo($studentId)
+{
+  $year = substr($studentId, 0, 2);
+  $semesterCode = substr($studentId, 2, 1);
+  $departmentCode = substr($studentId, 3, 2);
+  $studentNumber = substr($studentId, 5, 3);
+
+  $semesterMap = [
+    '1' => 'Autumn',
+    '2' => 'Spring',
+    '3' => 'Summer'
+  ];
+
+  $departmentMap = [
+    '01' => 'School of Business',
+    '02' => 'School of Science and Engineering',
+    '03' => 'School of Liberal Arts and Social Sciences',
+    '04' => 'School of Law'
+  ];
+
+  $semester = isset($semesterMap[$semesterCode]) ? $semesterMap[$semesterCode] : 'Unknown';
+  $department = isset($departmentMap[$departmentCode]) ? $departmentMap[$departmentCode] : 'Unknown';
+
+  $studentInfo = [
+    'admission_year' => 2000 + $year,
+    'admission_semester' => $semester,
+    'department' => $department,
+    'studentNumber' => $studentNumber
+  ];
+
+  return $studentInfo;
+}
