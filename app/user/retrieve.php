@@ -15,7 +15,7 @@ if (!checkUserType("user")) {
 try {
   $user = auth();
   if ($user) {
-    $stmt = $conn->prepare("SELECT user.id, first_name, last_name, gender, email, phone, student_id, user_type.user_type FROM user
+    $stmt = $conn->prepare("SELECT user.id, first_name, last_name, email, phone, student_id, user_type.user_type FROM user
       INNER JOIN user_type on user.user_type_id = user_type.id
       WHERE email = :email LIMIT 1");
 
