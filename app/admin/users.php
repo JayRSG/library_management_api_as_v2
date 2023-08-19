@@ -38,8 +38,8 @@ try {
   }
 
   $selectable_columns =
-    $account_type == "user" ? ['id, first_name, last_name, gender, email, phone, student_id, department, deleted'] : ($account_type == "admin" ?
-      ['id, first_name, last_name, email, active'] : null);
+    $account_type == "user" ? ['user.id, first_name, last_name, email, phone, student_id, user_type_id, user_type, deleted'] : ($account_type == "admin" ?
+      ['admin.id, first_name, last_name, email, active'] : null);
 
   if (!$selectable_columns) {
     response(['message' => 'Bad Request'], 400);
@@ -51,7 +51,8 @@ try {
     $sql .= "$value, ";
   }
   $sql = rtrim($sql, ", ");
-  $sql .= " FROM $account_type WHERE";
+  $join_stmt = $account_type == "user" ? "LEFT JOIN user_type on user_type_id = user_type.id" : '';
+  $sql .= " FROM $account_type $join_stmt WHERE";
 
   $params = array();
 
