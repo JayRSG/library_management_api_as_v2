@@ -3,7 +3,7 @@
 function register_validator($data)
 {
   if (
-    isset($data['email']) && isset($data['password']) &&
+    isset($data['email'])  &&
     isset($data['first_name']) &&
     isset($data['last_name'])
   ) {
@@ -21,8 +21,12 @@ if (!checkPostMethod()) {
   return;
 }
 
-if (auth()) {
-  response(['message' => "Already Logged In"], 403);
+if (!auth()) {
+  response(['message' => "Unauthenticated"], 401);
+  return;
+}
+
+if (!checkUserType('admin')) {
   return;
 }
 
@@ -35,7 +39,7 @@ try {
   $firstName = $_POST['first_name'] ?? null;
   $lastName = $_POST['last_name'] ?? null;
   $email = $_POST['email'] ?? null;
-  $password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
+  $password = password_hash("12345", PASSWORD_DEFAULT);
   $fingerprint = $_POST['fingerprint'] ?? null;
 
   $sql = "INSERT INTO `admin` (`first_name`, `last_name`, `email`, `password`)

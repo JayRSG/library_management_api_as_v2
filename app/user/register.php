@@ -6,10 +6,9 @@ function register_validator($data)
     !isset($data['first_name']) ||
     !isset($data['last_name']) ||
     !isset($data['email']) ||
-    !isset($data['password']) ||
-    !isset($data['student_id']) ||
     !isset($data['phone']) ||
-    !isset($data['department'])
+    !isset($data['user_type_id']) ||
+    ($data['user_type_id'] == 1 && !isset($data['student_id']))
   ) {
     return false;
   } else {
@@ -25,8 +24,12 @@ if (!checkPostMethod()) {
   return;
 }
 
-if (auth()) {
-  response(['message' => "Already Logged In"], 403);
+if (!auth()) {
+  response(['message' => "Unauthenticated"], 401);
+  return;
+}
+
+if (!checkUserType('admin')) {
   return;
 }
 
@@ -39,14 +42,13 @@ try {
   $firstName = $_POST['first_name'] ?? null;
   $lastName = $_POST['last_name'] ?? null;
   $email = $_POST['email'] ?? null;
-  $password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
-  $student_id = $_POST['student_id'] ?? null;
+  $student_id = isset($_POST['student_id']) ? $_POST['student_id'] : "";
+  $user_type_id = $_POST['user_type_id'] ?? null;
   $fingerprint = $_POST['fingerprint'] ?? null;
-  $semester = $_POST['phone'] ?? null;
-  $department = $_POST['department'] ?? null;
+  $password = password_hash('12345', PASSWORD_DEFAULT);
 
-  $sql = "INSERT INTO `user` (`first_name`, `last_name`, `email`, `phone`, `password`, `student_id`, `department`) 
-          VALUES (:first_name, :last_name, :email, :phone, :pass, :student_id, :department)";
+  $sql = "INSERT INTO `user` (`first_name`, `last_name`, `email`, `phone`, `password`, `student_id`, `user_type_id`) 
+          VALUES (:first_name, :last_name, :email, :phone, :pass, :student_id, :user_type_id)";
   $stmt = $conn->prepare($sql);
 
   $stmt->bindParam(':first_name', $firstName, PDO::PARAM_STR);
@@ -55,7 +57,7 @@ try {
   $stmt->bindParam(':pass', $password, PDO::PARAM_STR);
   $stmt->bindParam(':student_id', $student_id, PDO::PARAM_STR);
   $stmt->bindParam(':phone', $phone, PDO::PARAM_INT);
-  $stmt->bindParam(':department', $department, PDO::PARAM_STR);
+  $stmt->bindParam(':user_type_id', $user_type_id, PDO::PARAM_INT);
   // $stmt->bindParam(':fingerprint', $fingerprint, PDO::PARAM_STR);
 
   $stmt->execute();
