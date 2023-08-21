@@ -6,6 +6,7 @@ function books_validator($data)
     !isset($data['name']) ||
     !isset($data['author']) ||
     !isset($data['isbn']) ||
+    !isset($data['call_number']) ||
     !isset($data['publisher'])
   ) {
     return false;
@@ -45,18 +46,22 @@ if (!isValidISBN13($_POST['isbn'])) {
 try {
   $name = $_POST['name'];
   $author = $_POST['author'];
+  $edition = $_POST['edition'] ?? null;
   $isbn = $_POST['isbn'];
+  $call_number = $_POST['call_number'];
   $publisher = $_POST['publisher'];
   $description = $_POST['description'] ?? null;
 
-  $sql = "INSERT INTO `book` (`name`, `author`, `isbn`, `publisher`, `description`) 
-  VALUES (:name, :author, :isbn, :publisher, :description)";
+  $sql = "INSERT INTO `book` (`name`, `author`, `isbn`, `publisher`, `call_number`, `edition` , `description`) 
+  VALUES (:name, :author, :isbn, :publisher, :call_number, :edition, :description)";
 
   $stmt = $conn->prepare($sql);
 
   $stmt->bindParam(":name", $name);
   $stmt->bindParam(":author", $author);
   $stmt->bindParam(":isbn", $isbn);
+  $stmt->bindParam(":edition", $edition);
+  $stmt->bindParam(":call_number", $call_number);
   $stmt->bindParam(":publisher", $publisher);
   $stmt->bindParam(":description", $description);
 
