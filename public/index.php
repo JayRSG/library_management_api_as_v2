@@ -63,6 +63,7 @@ $routes = [
   "/admin"                            =>       app . "/admin/retrieve.php",
   "/admin/users"                      =>       app . "/admin/users.php",
   "/admin/deleteUser"                 =>       app . "/admin/delete.php",
+  "/admin/update"                     =>       app . "/admin/update.php",
 ];
 
 // Check if the requested route exists in the routes array
@@ -73,7 +74,7 @@ if (array_key_exists($path, $routes)) {
   $_GET = $queryParams;
 
   // include file according to the route
-  
+
   require_once $file;
 } else {
   // if the route not found return a 404 message
