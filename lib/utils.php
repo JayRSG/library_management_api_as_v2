@@ -24,6 +24,7 @@ function checkUserType($type)
     response("", 401);
     return false;
   }
+
   return true;
 }
 
@@ -80,7 +81,7 @@ function response($response, $code = 200, $headers = null)
 
   http_response_code($code);
   if ($response != "") {
-    echo json_encode($response);
+    echo json_encode($response, JSON_PRETTY_PRINT);
   }
 }
 
@@ -162,4 +163,20 @@ function extractStudentInfo($studentId)
   ];
 
   return $studentInfo;
+}
+
+
+function expect_keys($data, $expected_keys)
+{
+  if ($data) {
+    foreach ($data as $key => $value) {
+      if (!in_array($key, $expected_keys) && empty($value)) {
+        return false;
+      }
+    }
+  } else {
+    return false;
+  }
+
+  return true;
 }
