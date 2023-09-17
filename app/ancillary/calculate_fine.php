@@ -8,7 +8,7 @@ function validate($data)
   }
   return true;
 }
-function calculate_fine($date_diff)
+function calculate_fine($date_diff, $late_fine)
 {
   $fine = 0;
   $fine_per_day = 10;
@@ -89,10 +89,11 @@ try {
 
   if ($result && $stmt->rowCount() > 0) {
     $borrow_info = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!empty($borrow_info['returned_date_diff']) &&  $borrow_info['returned_date_diff'] > 0) {
-      $fine_info = calculate_fine($borrow_info['return_date_diff']);
+
+    if (!empty($borrow_info['return_date_diff']) && $borrow_info['return_date_diff'] > 0) {
+      $fine_info = calculate_fine($borrow_info['return_date_diff'], $borrow_info['late_fine']);
     } else if (!empty($borrow_info['current_date_diff']) && $borrow_info['current_date_diff'] > 0) {
-      $fine_info = calculate_fine($borrow_info['current_date_diff']);
+      $fine_info = calculate_fine($borrow_info['current_date_diff'], $borrow_info['late_fine']);
     }
 
     response([
