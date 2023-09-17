@@ -47,6 +47,7 @@ $routes = [
   "/books/delete"                     =>       app . "/books/delete_book.php",
   "/books/isbn"                       =>       app . "/books/valid_isbns.php",
   "/books/borrow_book"                =>       app . "/ancillary/borrow_book.php",
+  "/books/reissue_book"               =>       app . "/ancillary/reissue_book.php",
   "/books/borrow_list"                =>       app . "/ancillary/borrow_list.php",
   "/books/search_borrow_info"         =>       app . "/ancillary/search_borrowed_book.php",
   "/books/return_book"                =>       app . "/ancillary/return_book.php",
