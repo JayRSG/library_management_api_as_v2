@@ -33,7 +33,6 @@ if (!borrow_list_validator($_GET)) {
   return;
 }
 
-
 try {
   $id = $_GET['id'] ?? null;
   $all = $_GET['all'] ?? null;
@@ -41,13 +40,30 @@ try {
   $book_id = $_GET['book_id'] ?? null;
   $borrow_date = $_GET['date_from'] ?? null;
   $borrow_date_range = $_GET['date_to'] ?? null;
-  $returned = isset($_GET['returned']) && $_GET['returned'] != "" && ($_GET['returned'] == 1 || $_GET['returned'] == 0) ? $_GET['returned'] : -1;
+  $returned = isset($_GET['returned']) && $_GET['returned'] != "" && ($_GET['returned'] == "1" || $_GET['returned'] == "0") ? $_GET['returned'] : -1;
 
-  $user_id = $_GET['user_id'] ?? null;
+  $user_info = $_GET['user_id'] ?? null;
+
+  // response(["message" => $_GET], 200);
+  // return;
+
   if (auth_type() == "user" && ($all || $user_id != $user['id'])) {
     response(['message' => 'Not Found'], 404);
     return;
   }
+
+  $sql = "SELECT id from user where email = :user_info OR student_id = :user_info OR phone = :user_info LIMIT 1";
+  $stmt = $conn->prepare($sql);
+  $stmt->bindParam(":user_info", $user_info);
+
+  $result = $stmt->execute();
+  $user_id = null;
+
+  if ($result && $stmt->rowCount() == 1) {
+    $user_id = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]['id'];
+  }
+
+  $user_id = $user_id ?? null;
 
 
   $sql = "SELECT book_borrow.*, 
@@ -69,8 +85,9 @@ LEFT JOIN user return_user ON (book_borrow.return_user_type = 'user' AND return_
 
   $bind_params = [];
 
-  if (!empty($all) && $all == true) {
-    if ($returned == 1 || $returned == 0) {
+
+  if (!empty($all) && $all == "1") {
+    if ($returned == "1" || $returned == "0") {
       $sql .= " returned = :returned";
       $bind_params[":returned"] = $returned;
     }
@@ -110,12 +127,13 @@ LEFT JOIN user return_user ON (book_borrow.return_user_type = 'user' AND return_
         $bind_params[":borrow_date_range"] = $borrow_date_range;
       }
 
-      if ($returned == 0 || $returned == 1) {
+      if ($returned == "0" || $returned == "1") {
         $sql .= "returned = :returned";
         $bind_params[":returned"] = $returned;
       }
     }
   }
+
 
   $sql = rtrim($sql, "AND ");
   $stmt =  $conn->prepare($sql);
@@ -123,6 +141,9 @@ LEFT JOIN user return_user ON (book_borrow.return_user_type = 'user' AND return_
   foreach ($bind_params as $key => $value) {
     $stmt->bindValue($key, $value);
   }
+
+  // response([$stmt->debugDumpParams()], 200);
+  // return;
 
   $result = $stmt->execute();
 
