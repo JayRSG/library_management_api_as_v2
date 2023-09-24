@@ -70,7 +70,7 @@ try {
   if ($result && $stmt->rowCount() > 0) {
     response(['message' => "Book inserted successfully"], 200);
   } else {
-    response(['message' => "Book Insertion failed"], 400);
+    response(['message' => "Book insertion failed"], 400);
   }
 } catch (PDOException $e) {
   response(['message' => $e->getMessage()], 500);
