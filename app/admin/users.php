@@ -38,8 +38,8 @@ try {
   }
 
   $selectable_columns =
-    $account_type == "user" ? ['user.id, first_name, last_name, email, phone, student_id, user_type_id, user_type, deleted'] : ($account_type == "admin" ?
-      ['admin.id, first_name, last_name, email, active'] : null);
+    $account_type == "user" ? ['user.id, first_name, last_name, fingerprint, email, phone, student_id, user_type_id, user_type, deleted'] : ($account_type == "admin" ?
+      ['admin.id, first_name, last_name, email, fingerprint, active'] : null);
 
   if (!$selectable_columns) {
     response(['message' => 'Bad Request'], 400);

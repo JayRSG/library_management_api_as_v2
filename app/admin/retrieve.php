@@ -15,7 +15,7 @@ if (!checkUserType("admin") && $user['id'] == 1) {
 
 try {
   if ($user) {
-    $stmt = $conn->prepare("SELECT id, first_name, last_name, email, active FROM admin WHERE email = :email LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, first_name, last_name, fingerprint, email, active FROM admin WHERE email = :email LIMIT 1");
 
     $stmt->bindParam(':email', $user['email']);
 
