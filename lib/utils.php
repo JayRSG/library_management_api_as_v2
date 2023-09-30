@@ -108,26 +108,36 @@ function isValidISBN13($isbn)
 
 function updateBookStock($conn, $id)
 {
-  $sql = "UPDATE book
-  SET remaining_qty = (
-    SELECT COUNT(*) 
-    FROM book_borrow 
-    WHERE book_borrow.book_id = book.id AND returned = 0
-  ) WHERE id = :id";
+  try {
+    $sql = "UPDATE book
+    SET remaining_qty = (
+      (SELECT COUNT(*) from book_rfid_rel where book_id = :id) - (SELECT COUNT(*) 
+      FROM book_borrow 
+      WHERE book_borrow.book_id = book.id AND returned = 0)
+    ) WHERE id = :id";
 
-  $stmt = $conn->prepare($sql);
-  $stmt->bindParam(":id", $id);
-  $result = $stmt->execute();
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":id", $id);
+    $result = $stmt->execute();
+  } catch (PDOException $e) {
+    return $e;
+  }
 
   return $result;
 }
 
 function updateBookCount($conn, $book_id)
 {
-  $sql = "UPDATE book SET quantity = (SELECT COUNT(*) from book_rfid_rel WHERE book_id = :book_id) where id = :book_id";
-  $stmt = $conn->prepare($sql);
-  $stmt->bindParam(":book_id", $book_id);
-  $result = $stmt->execute();
+  $result = null;
+  try {
+
+    $sql = "UPDATE book SET quantity = (SELECT COUNT(*) from book_rfid_rel WHERE book_id = :book_id), remaining_qty = quantity - (SELECT COUNT(*) FROM book_borrow where book_id = :book_id AND returned = 0) where id = :book_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(":book_id", $book_id);
+    $result = $stmt->execute();
+  } catch (PDOException $e) {
+    return $e->getMessage();
+  }
 
   return $result;
 }
