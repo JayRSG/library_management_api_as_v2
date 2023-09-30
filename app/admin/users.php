@@ -4,6 +4,8 @@
  * Get users
  */
 
+use function PHPSTORM_META\map;
+
 if (!checkGetMethod()) {
   return;
 }
@@ -13,6 +15,7 @@ if (!checkUserType("admin")) {
 }
 
 try {
+  $id = !empty($_GET['id']) ? $_GET['id'] : null;
   $student_id = !empty($_GET['student_id']) ? $_GET['student_id'] : null;
   $email = !empty($_GET['email']) ? $_GET['email'] : null;
   $phone = !empty($_GET['phone']) ? $_GET['phone'] : null;
@@ -38,8 +41,8 @@ try {
   }
 
   $selectable_columns =
-    $account_type == "user" ? ['user.id, first_name, last_name, fingerprint, email, phone, student_id, user_type_id, user_type, deleted'] : ($account_type == "admin" ?
-      ['admin.id, first_name, last_name, email, fingerprint, active'] : null);
+    $account_type == "user" ? ['user.id, first_name, last_name, fingerprint_id, email, phone, student_id, user_type_id, user_type, deleted'] : ($account_type == "admin" ?
+      ['admin.id, first_name, last_name, email, fingerprint_id, active'] : null);
 
   if (!$selectable_columns) {
     response(['message' => 'Bad Request'], 400);
@@ -55,6 +58,11 @@ try {
   $sql .= " FROM $account_type $join_stmt WHERE";
 
   $params = array();
+
+  if ($id) {
+    $sql .= " $account_type.id = :id AND";
+    $params[':id'] = $id;
+  }
 
   if ($student_id) {
     $sql .= " student_id = :student_id AND";
@@ -93,8 +101,24 @@ try {
 
   $result = $stmt->execute();
   if ($result && $stmt->rowCount() > 0) {
+
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    response(["data" => $users], 200);
+    
+    if ($users) {
+      $i = 0;
+      foreach ($users as $value) {
+        foreach ($value as $student_info_key => $student_info_value) {
+          if ($student_info_key == "student_id" && $student_info_value != '') {
+            $student_info = extractStudentInfo($student_info_value);
+            $users[$i++]['student_info'] = $student_info;
+          }
+        }
+      }
+
+      response(["data" => $users], 200);
+    } else {
+      response(["message" => "Users not Found"], 404);
+    }
   } else {
     response(["message" => "No Users Found"], 404);
   }
