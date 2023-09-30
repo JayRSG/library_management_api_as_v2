@@ -2,7 +2,7 @@
 
 function login_validator($data)
 {
-  if (((isset($data['email']) && isset($data['password'])) || isset($data['fingerprint'])) && isset($data['user_type']) && ($data['user_type'] == "user" || $data['user_type'] == "admin")) {
+  if (((isset($data['email']) && isset($data['password'])) || isset($data['fingerprint_id'])) && isset($data['user_type']) && ($data['user_type'] == "user" || $data['user_type'] == "admin")) {
     return true;
   } else {
     return false;
@@ -30,19 +30,19 @@ if (!login_validator($_POST)) {
 try {
   $email = $_POST['email'] ?? null;
   $password = $_POST['password'] ?? null;
-  $fingerprint =  $_POST['fingerprint'] ?? null;
+  $fingerprint_id =  $_POST['fingerprint_id'] ?? null;
 
   $user_type = $_POST['user_type'] ?? null;   //admin|user
 
   if ($user_type == "admin") {
-    if ($fingerprint) {
-      $sql = "SELECT * FROM admin WHERE fingerprint = :fingerprint LIMIT 1";
+    if ($fingerprint_id) {
+      $sql = "SELECT * FROM admin WHERE fingerprint_id = :fingerprint_id LIMIT 1";
     } else {
       $sql = "SELECT * FROM admin WHERE email = :email LIMIT 1";
     }
   } else if ($user_type == "user") {
-    if ($fingerprint) {
-      $sql = "SELECT * FROM user WHERE fingerprint = :fingerprint AND deleted IS NOT true LIMIT 1";
+    if ($fingerprint_id) {
+      $sql = "SELECT * FROM user WHERE fingerprint_id = :fingerprint_id AND deleted IS NOT true LIMIT 1";
     } else {
       $sql = "SELECT * FROM user WHERE email = :email AND deleted IS NOT true LIMIT 1";
     }
@@ -52,8 +52,8 @@ try {
 
   if ($email) {
     $stmt->bindParam(':email', $email);
-  } else if ($fingerprint) {
-    $stmt->bindParam(':fingerprint', $fingerprint);
+  } else if ($fingerprint_id) {
+    $stmt->bindParam(':fingerprint_id', $fingerprint_id);
   }
 
   $result = $stmt->execute();
@@ -62,14 +62,14 @@ try {
 
   if ($result && $stmt->rowCount() == 1) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    // User found, check the password or fingerprint
-    if (password_verify($password, $user['password']) || ($fingerprint != NULL && $fingerprint === $user['fingerprint'])) {
-      // Password or fingerprint matches, allow login
+    // User found, check the password or fingerprint_id
+    if (password_verify($password, $user['password']) || ($fingerprint_id != NULL && $fingerprint_id === $user['fingerprint_id'])) {
+      // Password or fingerprint_id matches, allow login
       $_SESSION['auth'] = $user;
       $_SESSION['auth_type'] = $user_type;
       response(['message' => "Login Successful"], 200);
     } else {
-      // Password or fingerprint does not match
+      // Password or fingerprint_id does not match
       response(["message" => "Invalid credentials"], 404);
     }
   } else {

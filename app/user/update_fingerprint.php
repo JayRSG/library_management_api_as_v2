@@ -2,7 +2,7 @@
 
 function validate($data)
 {
-  return expect_keys($data, ['fingerprint', 'user_id']);
+  return expect_keys($data, ['fingerprint_id', 'account_type', 'user_id']);
 }
 
 if (!checkPostMethod()) {
@@ -20,9 +20,10 @@ if (!validate($_POST)) {
 
 try {
   $user_id = $_POST['user_id'];
-  $fingerprint = $_POST['fingerprint'];
+  $fingerprint = $_POST['fingerprint_id'];
+  $account_type = $_POST['account_type'];
 
-  $sql = "UPDATE user SET fingerprint = :fingerprint where id = :id";
+  $sql = "UPDATE $account_type SET fingerprint_id = :fingerprint_id where id = :id";
 
   $stmt = $conn->prepare($sql);
   $stmt->bindParam(":fingerprint", $fingerprint);
@@ -31,10 +32,10 @@ try {
   $result = $stmt->execute();
 
   if ($result && $stmt->rowCount() > 0) {
-    response(['message' => 'Finger print updated']);
+    response(['message' => 'Fingerprint updated']);
   } else {
-    response(['message' => 'Update Failed'], 400);
+    response(['message' => 'Fingerprint Update Failed'], 400);
   }
 } catch (PDOException $e) {
-  response(['message' => $e->getMessage()]);
+  response(['message' => $e->getMessage()], 500);
 }
