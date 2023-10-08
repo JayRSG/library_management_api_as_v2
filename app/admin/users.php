@@ -4,8 +4,6 @@
  * Get users
  */
 
-use function PHPSTORM_META\map;
-
 if (!checkGetMethod()) {
   return;
 }
@@ -54,7 +52,7 @@ try {
     $sql .= "$value, ";
   }
   $sql = rtrim($sql, ", ");
-  $join_stmt = $account_type == "user" ? "LEFT JOIN user_type on user_type_id = user_type.id" : '';
+  $join_stmt = $account_type == "user" ? "LEFT JOIN user_type on user_type_id = user_type.id" : "";
   $sql .= " FROM $account_type $join_stmt WHERE";
 
   $params = array();
@@ -103,7 +101,7 @@ try {
   if ($result && $stmt->rowCount() > 0) {
 
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     if ($users) {
       $i = 0;
       foreach ($users as $value) {
