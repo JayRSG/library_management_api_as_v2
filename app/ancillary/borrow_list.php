@@ -42,7 +42,7 @@ try {
   $borrow_date_range = $_GET['date_to'] ?? null;
   $returned = isset($_GET['returned']) && $_GET['returned'] != "" && ($_GET['returned'] == "1" || $_GET['returned'] == "0") ? $_GET['returned'] : -1;
 
-  $user_info = $_GET['user_id'] ?? null;
+  $user_id = $_GET['user_id'] ?? null;
 
   // response(["message" => $_GET], 200);
   // return;
@@ -52,9 +52,9 @@ try {
     return;
   }
 
-  $sql = "SELECT id from user where email = :user_info OR student_id = :user_info OR phone = :user_info LIMIT 1";
+  $sql = "SELECT id from user where email = :user_id OR student_id = :user_id OR phone = :user_id LIMIT 1";
   $stmt = $conn->prepare($sql);
-  $stmt->bindParam(":user_info", $user_info);
+  $stmt->bindParam(":user_id", $user_id);
 
   $result = $stmt->execute();
   $user_id = null;
@@ -69,13 +69,14 @@ try {
   $sql = "SELECT book_borrow.*, 
   issue_admin.first_name as issuer_admin_first_name, issue_admin.last_name as issuer_admin_last_name, 
   issue_user.first_name issuer_user_first_name, issue_user.last_name issuer_user_last_name, 
-  book.name, book.author, book.publisher, 
-  user.first_name, user.last_name, user.id as user_id,
+  book.name, book.author, book.publisher, book.edition, 
+  user.first_name, user.last_name, user.id as user_id, user.fingerprint_id,
   return_admin.first_name as return_admin_first_name, return_admin.last_name as return_admin_last_name, 
   return_user.first_name as return_user_first_name, return_user.last_name as return_user_last_name 
   
   FROM book_borrow 
   INNER JOIN book ON book.id = book_id
+  
 INNER JOIN user ON user.id = book_borrow.user_id
 INNER JOIN book_rfid_rel ON book_rfid_rel.id = rfid_rel_id
 LEFT JOIN admin issue_admin ON (book_borrow.issue_user_type = 'admin' AND issue_admin.id = book_borrow.issue_user_id)
