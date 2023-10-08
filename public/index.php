@@ -55,7 +55,6 @@ $routes = [
   "/books/return_book"                =>       app . "/ancillary/return_book.php",
   "/books/calculate_fine"             =>       app . "/ancillary/calculate_fine.php",
   "/books/pay_fine"                   =>       app . "/ancillary/pay_fine.php",
-  "/sensor"                           =>       app . "/sensor.php",
   "/login"                            =>       app . "/login.php",
   "/logout"                           =>       app . "/logout.php",
   "/user/register"                    =>       app . "/user/register.php",
