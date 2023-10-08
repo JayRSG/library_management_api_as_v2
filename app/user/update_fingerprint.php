@@ -26,7 +26,8 @@ try {
   $sql = "UPDATE $account_type SET fingerprint_id = :fingerprint_id where id = :id";
 
   $stmt = $conn->prepare($sql);
-  $stmt->bindParam(":fingerprint", $fingerprint);
+
+  $stmt->bindParam(":fingerprint_id", $fingerprint);
   $stmt->bindParam(":id", $user_id);
 
   $result = $stmt->execute();
