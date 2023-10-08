@@ -54,7 +54,9 @@ try {
       return;
     }
 
-    if ($data[0]['late_fine'] == NULL && $data[0]['fine_payment_date'] == NULL) {
+    $fine_data = calculate_fine($conn, $data[0]['user_id'], $id);
+
+    if (!empty($fine_data[0])) {
       response(['message' => "Must pay late fine before reissuing book"], 200);
       return;
     }
