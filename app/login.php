@@ -63,7 +63,7 @@ try {
   if ($result && $stmt->rowCount() == 1) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     // User found, check the password or fingerprint_id
-    if (password_verify($password, $user['password']) || ($fingerprint_id != NULL && $fingerprint_id === $user['fingerprint_id'])) {
+    if (password_verify($password, $user['password']) || ($fingerprint_id != NULL && $fingerprint_id == $user['fingerprint_id'])) {
       // Password or fingerprint_id matches, allow login
       $_SESSION['auth'] = $user;
       $_SESSION['auth_type'] = $user_type;
