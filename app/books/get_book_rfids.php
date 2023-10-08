@@ -1,29 +1,55 @@
 <?php
 function validate($data)
 {
-  return expect_keys($data, ['book_id']);
+  if (empty($data['book_id']) && empty($data['rfid'])) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 if (!checkPostMethod()) {
   return;
 }
 
-if (!checkUserType('admin')) {
+// if (!checkUserType('admin')) {
+//   return;
+// }
+
+if (!validate($_POST)) {
+  response(['message' => "Bad Request"], 400);
   return;
 }
 
 try {
-  $book_id = $_POST['book_id'];
+  $book_id = $_POST['book_id'] ?? null;
+  $book_rfid = $_POST['rfid'] ?? null;
 
-  $sql = "SELECT rfid from book_rfid_rel where book_id = :book_id";
+  $sql = "";
+  $param = array();
+
+  if ($book_id) {
+    $sql = "SELECT id, rfid from book_rfid_rel where book_id = :book_id";
+    $param[':book_id']  = $book_id;
+  } else if ($book_rfid) {
+    $sql = "SELECT id, book_id from book_rfid_rel where rfid = :rfid LIMIT 1";
+    $param[':rfid']  = $book_rfid;
+  }
+
   $stmt = $conn->prepare($sql);
 
-  $stmt->bindParam(":book_id", $book_id);
+  foreach ($param as $key => $value) {
+    $stmt->bindParam($key, $value);
+  }
 
   $result = $stmt->execute();
 
   if ($result && $stmt->rowCount() > 0) {
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($book_id) {
+      $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else if ($book_rfid) {
+      $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     if ($data) {
       response(['data' => $data], 200);
