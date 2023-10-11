@@ -59,7 +59,11 @@ try {
     // $find_data[0] -> fine_info
     // $find_data[1] -> borrow_info
 
-    if (isset($fine_data[0]['fine']) && isset($fine_data[1]['late_fine']) && $fine_data[0]['fine'] - $fine_data[1]['late_fine'] > 0) {
+
+    if (
+      (isset($fine_data[0]['fine']) && !empty($fine_data[1]['fine_excused']) && ($fine_data[1]['fine_excused'] != 1 || empty($fine_data[1]['fine_excused']))) ||
+      (!empty($fine_data[0]['fine']) && !empty($fine_data[1]['late_fine']) && $fine_data[0]['fine'] - $fine_data[1]['late_fine'] > 0)
+    ) {
       response(['message' => "Must pay late fine before reissuing book"], 200);
       return;
     }
