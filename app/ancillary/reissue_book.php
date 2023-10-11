@@ -54,9 +54,12 @@ try {
       return;
     }
 
-    $fine_data = calculate_fine($conn, $data[0]['user_id'], $id);
 
-    if (!empty($fine_data[0])) {
+    $fine_data = calculate_fine($conn, $data[0]['user_id'], $id);
+    // $find_data[0] -> fine_info
+    // $find_data[1] -> borrow_info
+
+    if (isset($fine_data[0]['fine']) && isset($fine_data[1]['late_fine']) && $fine_data[0]['fine'] - $fine_data[1]['late_fine'] > 0) {
       response(['message' => "Must pay late fine before reissuing book"], 200);
       return;
     }
