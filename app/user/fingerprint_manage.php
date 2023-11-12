@@ -54,6 +54,8 @@ WHERE
       } else {
         response(['message' => 'Not Found'], 404);
       }
+    }else{
+      response(['message' => 'Not Found'], 404);
     }
   } else if ($operation == "retrieve") {
     /** Retrieve the next autoincrement id for storing fingerprint */
@@ -93,8 +95,10 @@ WHERE
       if ($id) {
         response(['data' => $id]);
       } else {
-        response(['message' => 'Failed Insertion'], 404);
+        response(['message' => 'Failed Insertion'], 400);
       }
+    }else{
+      response(['message' => 'Failed Insertion'], 400);
     }
   } else if ($operation == "revert") {
     /** Delete fingerprint ID from the table */
