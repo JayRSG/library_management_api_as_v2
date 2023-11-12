@@ -49,7 +49,7 @@ try {
 
   $sql = "UPDATE book_borrow set 
   return_time = NOW(), 
-  return_user_id = :user_id, 
+  return_user_id = :return_user_id, 
   return_user_type = :return_user_type, 
   returned = 1 
   WHERE 
