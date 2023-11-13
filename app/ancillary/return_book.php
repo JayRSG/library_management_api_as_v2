@@ -47,7 +47,7 @@ try {
   $return_user_id = $user['id'];
   $return_user_type = auth_type();
 
-  $fine_data = calculate_fine($conn, $data[0]['user_id'], $id);
+  $fine_data = calculate_fine($conn, $user_id, $borrow_id);
   // $find_data[0] -> fine_info
   // $find_data[1] -> borrow_info
 
