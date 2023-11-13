@@ -89,6 +89,11 @@ LEFT JOIN user return_user ON (book_borrow.return_user_type = 'user' AND return_
 
 
   if (!empty($all) && $all == "1") {
+    if (!empty($rfid)) {
+      $sql .= "book_rfid_rel.rfid = :rfid AND ";
+      $bind_params[":rfid"] = $rfid;
+    }
+    
     if ($returned == "1" || $returned == "0") {
       $sql .= " returned = :returned";
       $bind_params[":returned"] = $returned;
