@@ -103,12 +103,12 @@ LEFT JOIN user return_user ON (book_borrow.return_user_type = 'user' AND return_
         $bind_params[":user_id"] = $user_id;
       }
 
-      if (!empty($book_id)) {
-        $sql .= "book_borrow.book_id = :book_id AND ";
-        $bind_params[":book_id"] = $book_id;
-      }
+      // if (!empty($book_id)) {
+      //   $sql .= "book_borrow.book_id = :book_id AND ";
+      //   $bind_params[":book_id"] = $book_id;
+      // }
 
-      if (!empty($book_id)) {
+      if (!empty($rfid)) {
         $sql .= "book_rfid_rel.rfid = :rfid AND ";
         $bind_params[":rfid"] = $rfid;
       }
