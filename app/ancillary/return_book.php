@@ -52,7 +52,7 @@ try {
   // $find_data[1] -> borrow_info
 
   if (
-    (isset($fine_data[0]['fine']) && !empty($fine_data[1]['fine_excused']) && ($fine_data[1]['fine_excused'] != 1 || empty($fine_data[1]['fine_excused']))) ||
+    ($return_user_type == "user" && isset($fine_data[0]['fine']) && !empty($fine_data[1]['fine_excused']) && ($fine_data[1]['fine_excused'] != 1 || empty($fine_data[1]['fine_excused']))) ||
     (!empty($fine_data[0]['fine']) && !empty($fine_data[1]['late_fine']) && $fine_data[0]['fine'] - $fine_data[1]['late_fine'] > 0)
   ) {
     response(['message' => "Must pay late fine, please contact admin"], 200);
