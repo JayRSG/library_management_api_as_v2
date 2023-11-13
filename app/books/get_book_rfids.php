@@ -29,10 +29,10 @@ try {
   $param = array();
 
   if ($book_id) {
-    $sql = "SELECT id, rfid from book_rfid_rel where book_id = :book_id";
+    $sql = "SELECT book_rfid_rel.id, book_rfid_rel.rfid, book.name from book_rfid_rel INNER JOIN book on book.id = book_rfid_rel.book_id where book_rfid_rel.book_id = :book_id";
     $param[':book_id']  = $book_id;
   } else if ($book_rfid) {
-    $sql = "SELECT id, book_id from book_rfid_rel where rfid = :rfid LIMIT 1";
+    $sql = "SELECT book_rfid_rel.id, book_rfid_rel.book_id, book.name from book_rfid_rel INNER JOIN book on book.id = book_rfid_rel.book_id where book_rfid_rel.rfid = :rfid LIMIT 1";
     $param[':rfid']  = $book_rfid;
   }
 

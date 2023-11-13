@@ -38,6 +38,7 @@ try {
   $all = $_GET['all'] ?? null;
 
   $book_id = $_GET['book_id'] ?? null;
+  $rfid = $_GET['rfid'] ?? null;
   $borrow_date = $_GET['date_from'] ?? null;
   $borrow_date_range = $_GET['date_to'] ?? null;
   $returned = isset($_GET['returned']) && $_GET['returned'] != "" && ($_GET['returned'] == "1" || $_GET['returned'] == "0") ? $_GET['returned'] : -1;
@@ -107,11 +108,15 @@ LEFT JOIN user return_user ON (book_borrow.return_user_type = 'user' AND return_
         $bind_params[":book_id"] = $book_id;
       }
 
-      // if (!empty($rfid_id)) {
-      //   $sql .= "rfid_rel_id = :rfid_rel_id AND ";
-      //   $bind_params[":rfid_rel_id"] = $rfid_id;
-      // }
+      if (!empty($book_id)) {
+        $sql .= "book_rfid_rel.rfid = :rfid AND ";
+        $bind_params[":rfid"] = $rfid;
+      }
 
+      // if (!empty($book_rfid_rel_id)) {
+      //   $sql .= "book_borrow.rfid_rel_id = :rfid_rel_id AND ";
+      //   $bind_params[":rfid_rel_id"] = $book_rfid_rel_id;
+      // }
 
       if (!empty($borrow_date) && !empty($borrow_date_range)) {
 
