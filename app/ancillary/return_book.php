@@ -47,6 +47,18 @@ try {
   $return_user_id = $user['id'];
   $return_user_type = auth_type();
 
+  $fine_data = calculate_fine($conn, $data[0]['user_id'], $id);
+  // $find_data[0] -> fine_info
+  // $find_data[1] -> borrow_info
+
+  if (
+    (isset($fine_data[0]['fine']) && !empty($fine_data[1]['fine_excused']) && ($fine_data[1]['fine_excused'] != 1 || empty($fine_data[1]['fine_excused']))) ||
+    (!empty($fine_data[0]['fine']) && !empty($fine_data[1]['late_fine']) && $fine_data[0]['fine'] - $fine_data[1]['late_fine'] > 0)
+  ) {
+    response(['message' => "Must pay late fine, please contact admin"], 200);
+    return;
+  }
+
   $sql = "UPDATE book_borrow set 
   return_time = NOW(), 
   return_user_id = :return_user_id, 
